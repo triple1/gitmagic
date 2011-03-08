@@ -4,7 +4,7 @@ Użyję analogii żeby opisać system kontroli wersji. Dla lepszego wyjaśnienia
 
 === Praca to zabawa ===
 
-Grałem w gry komputerowe prawie całe moje życie. Dla porównania systemów kontroli wersji zacząłem używać już, jako dorosły i podejrzewam, że nie jestem jedyny oraz, że porównanie tych dwóch koncepcji ułatwi tłumaczenie i zrozumienie tematu.
+Grałem w gry komputerowe prawie całe moje życie. Dla porównania, systemów kontroli wersji zacząłem używać już, jako dorosły i podejrzewam, że nie jestem jedyny oraz, że porównanie tych dwóch koncepcji ułatwi tłumaczenie i zrozumienie tematu.
 
 Myśl o edytowaniu kodu lub dokumentu, jako o graniu w grę. Po przejściu wielu poziomów chciałbyś ją zapisać. Aby to zrobić klikasz przycisk 'Zapisz' w swoim ulubionych edytorze.
 
