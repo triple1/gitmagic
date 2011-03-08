@@ -1,40 +1,40 @@
-== Wstęp ==
+﻿== Wstęp ==
 
-Użyję analogii żeby opisać system kontroli wersji. Dla lepszego wyjaśnienia zobacz http://pl.wikipedia.org/wiki/System_kontroli_wersji[artukuł w Wikipedii opisujący systemy kontroli wersjii].
+Użyję analogii żeby opisać system kontroli wersji. Dla lepszego wyjaśnienia zobacz http://pl.wikipedia.org/wiki/System_kontroli_wersji[artukuł w Wikipedii opisujący systemy kontroli wersji].
 
 === Praca to zabawa ===
 
-Grałem w gry komputerowe prawie całe moje życie. Dla porówniania systemów kontroli wersjii zacząłem używać już jako dorosły i podejrzewam, że nie jestem jedyny oraz, że porównanie tych dwóch koncepcji ułatwi tłumaczenie i zrozumienie tematu.
+Grałem w gry komputerowe prawie całe moje życie. Dla porównania systemów kontroli wersji zacząłem używać już, jako dorosły i podejrzewam, że nie jestem jedyny oraz, że porównanie tych dwóch koncepcji ułatwi tłumaczenie i zrozumienie tematu.
 
-Myśl o edytowaniu kodu lub dokumentu jako o graniu w grę. Po przejściu wielu poziomów chciałbyś ją zapisaś. Aby to zrobić klikasz przycisk 'Zapisz' w swoim ulubionych edytorze.
+Myśl o edytowaniu kodu lub dokumentu, jako o graniu w grę. Po przejściu wielu poziomów chciałbyś ją zapisać. Aby to zrobić klikasz przycisk 'Zapisz' w swoim ulubionych edytorze.
 
 Tylko, że taki zapis nadpisze starą wersję. To jak z tymi starymi, old-school'owymi, grami, w których był tylko jeden slot na zapis: jasne, mogłeś zapisać, ale nie mogłeś nigdy wrócić do starszego zapisu. Trochę tego szkoda, bo poprzednio gra mogła być zapisana w jakimś wyjątkowo fajnym momencie, do którego chciałbyś pewnego dnia powrócić. Albo gorzej: Twój aktualny zapisany stan gry jest w momencie, w którym już nie możesz wygrać i niestety będziesz musiał zaczynać od nowa.
 
-=== Kontrola Wersjii ===
+=== Kontrola Wersji ===
 
-When editing, you can 'Save As...' a different file, or copy the file somewhere first before saving if you want to savour old versions. You can compress them too to save space. This is a primitive and labour-intensive form of version control. Computer games improved on this long ago, many of them providing multiple automatically timestamped save slots.
+Podczas edycji możesz „Zapisać jako…” inny plik, albo skopiować go do innej lokalizacji przed zapisem aby ocalić poprzednią wersję. Możesz również go skompresować, aby oszczędzić trochę miejsca na dysku. Są to zabiegi kontroli wersji dość prymitywne i wymagające sporo zachodu. Gry komputerowe zostały już dawno usprawnione pod tym kątem, poprzez dodanie automatycznego znakowania czasem slotów na zapisane gry. 
 
-Let's make the problem slightly tougher. Say you have a bunch of files that go together, such as source code for a project, or files for a website. Now if you want to keep an old version you have to archive a whole directory. Keeping many versions around by hand is inconvenient, and quickly becomes expensive.
+Wyobraźmy sobie sytuację odrobinę bardziej skomplikowaną. Powiedzmy, że masz kilka plików, które należą do jednej „paczki”, na przykład kod źródłowy projektu albo pliki strony Internetowej. W takiej sytuacji jeśli chciałbyś trzymać ich stare wersje musiałbyś archiwizować cały katalog. Trzymanie w ten sposób wielu wersji jest niewygodne i szybko staje się mało opłacalne.
 
-With some computer games, a saved game really does consist of a directory full of files. These games hide this detail from the player and present a convenient interface to manage different versions of this directory.
+Wiele gier komputerowych przechowuje zapisane gry jako katalogi pełne plików. Te gry ukrywają przed graczami informacje na temat tej struktury, zamiast tego oferują wygodny interfejs umożliwiający zarządzanie wersjami tych katalogów. 
 
-Version control systems are no different. They all have nice interfaces to manage a directory of stuff. You can save the state of the directory every so often, and you can load any one of the saved states later on. Unlike most computer games, they're usually smart about conserving space. Typically, only a few files change from version to version, and not by much. Storing the differences instead of entire new copies saves room.
+Systemy kontroli wersji działają tak samo. Wszystkie mają przyjazne interfejsy do zarządzania katalogami z treścią. Możesz zapisywać stan takiego katalogu jak tylko często chcesz, a później wczytywać dowolny z tych zapisów. Dodatkowo, w przeciwieństwie do większości gier komputerowych, systemy kontroli wersji bardzo dbają o oszczędność miejsca na dysku. Typowym zjawiskiem jest to, że pomiędzy kolejnymi wersjami zmieniają się tylko poszczególne pliki i to w niedużym stopniu. Przechowywanie jedynie różnic pomiędzy nimi, a nie ich całych kopii bardzo oszczędza miejsce.
 
-=== Distributed Control ===
+=== Rozproszona Kontrola ===
 
-Now imagine a very difficult computer game. So difficult to finish that many experienced gamers all over the world decide to team up and share their saved games to try to beat it. Speedruns are real-life examples: players specializing in different levels of the same game collaborate to produce amazing results.
+Wyobraź sobie wyjątkowo trudną grę komputerową. Tak trudną, że do jej ukończenia zebrali się doświadczeni gracze z całego świata aby dzielić się swoimi zapisanymi grami. Speedrun’y to przykład z życia wzięty: gracze specjalizujący się w różnych typach poziomów w grze współpracują, aby osiągnąć niesamowite wyniki.
 
-How would you set up a system so they can get at each other's saves easily? And upload new ones?
+Jak zorganizowałbyś system, który pozwalałby na swobodną wymianę zapisanych stanów gry? Umożliwiający wgrywanie nowych?
 
-In the old days, every project used centralized version control. A server somewhere held all the saved games. Nobody else did. Every player kept at most a few saved games on their machine. When a player wanted to make progress, they'd download the latest save from the main server, play a while, save and upload back to the server for everyone else to use.
+Dawniej każdy projekt używał zcentralizowanej kontroli wersji. Umieszczony gdzieś serwer przechowywał wszystkie zapisane gry. Nikt inny. Każdy z graczy miał u siebie jedynie kilka takich zapisów. Kiedy ktoś chciał przejść dalej w grze, ściągał najświeższy zapisany stan gry z głównego serwera, grał trochę, zapisywał, a potem wgrywał stan z powrotem na serwer, żeby inni mogli go użyć.
 
-What if a player wanted to get an older saved game for some reason? Maybe the current saved game is in an unwinnable state because somebody forgot to pick up an object back in level three, and they want to find the latest saved game where the game can still be completed. Or maybe they want to compare two older saved games to see how much work a particular player did.
+A co jeśli z jakiegokolwiek powodu gracz chciał dostać się do starej wersji zapisanej gry? Na przykład gra znalazła się w punkcie uniemożliwiającym jej zakończenie, ponieważ ktoś zapomniał zebrać konkretny przedmiot na poziomie trzecim i trzeba się cofnąć do momentu kiedy będzie można jeszcze ukończyć rozgrywkę? Albo gracze chcieliby porównać dwie wersje starych zapisanych gier, żeby porównać, ile pracy włożył każdy z nich?
 
-There could be many reasons to want to see an older revision, but the outcome is the same. They have to ask the central server for that old saved game. The more saved games they want, the more they need to communicate.
+Może być wiele powodów dla których chcemy zobaczyć starsze wersje, ale rezultat jest taki sam. Trzeba poprosić centralny serwer aby zobaczyć żądaną wersję zapisanej gry. Im więcej zapisów potrzebujesz tym więcej trzeba się komunikować. 
 
-The new generation of version control systems, of which Git is a member, are known as distributed systems, and can be thought of as a generalization of centralized systems. When players download from the main server they get every saved game, not just the latest one. It's as if they're mirroring the central server.
+Nowa generacja systemów kontroli wersji, do której należy Git, jest znana jako rozproszone i może być postrzegana jako uogólnienie systemów zcentralizowanych. Kiedy gracz ściąga informacje z głównego serwera to dostają wszystkie zapisane gry, nie tylko najświeższą. To tak, jak by robili lustrzaną kopię centralnego serwera.
 
-This initial cloning operation can be expensive, especially if there's a long history, but it pays off in the long run. One immediate benefit is that when an old save is desired for any reason, communication with the central server is unnecessary.
+Ta początkowa operacja klonowania może być kosztowna, zwłaszcza jeśli istnieje długa historia zmian, ale zwraca się w dłuższej perspektywie. Zaletą jest to, że jeśli tego z jakiegokolwiek powodu chcemy, to od razu mamy dostęp do każdego zapisanego stanu gry bez potrzeby komunikowania się z centralnym serwerem.
 
 === A Silly Superstition ===
 
