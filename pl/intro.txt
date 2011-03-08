@@ -36,24 +36,23 @@ Nowa generacja systemów kontroli wersji, do której należy Git, jest znana jak
 
 Ta początkowa operacja klonowania może być kosztowna, zwłaszcza jeśli istnieje długa historia zmian, ale zwraca się w dłuższej perspektywie. Zaletą jest to, że jeśli tego z jakiegokolwiek powodu chcemy, to od razu mamy dostęp do każdego zapisanego stanu gry bez potrzeby komunikowania się z centralnym serwerem.
 
-=== A Silly Superstition ===
+=== Naiwny przesąd ===
 
-A popular misconception is that distributed systems are ill-suited for projects requiring an official central repository. Nothing could be further from the truth. Photographing someone does not cause their soul to be stolen. Similarly, cloning the master repository does not diminish its importance.
+Popularne jest przeświadczenie, że rozproszone systemy kontroli wersji nie nadają się do projektów wymagających oficjalnego, centralnego repozytorium. Nie mogłoby być ono dalsze od prawdy. Zrobienie komuś zdjęcia nie sprawi, że skradniemy mu duszę. Podobnie, klonowanie głównego repozytorium nie ujmie mu nic na ważności.
 
-A good first approximation is that anything a centralized version control system can do, a well-designed distributed system can do better. Network resources are simply costlier than local resources. While we shall later see there are drawbacks to a distributed approach, one is less likely to make erroneous comparisons with this rule of thumb.
+Dobrym pierwszym spojrzeniem na na rozproszony system kontroli wersji jest to, że może on zrobić wszystko tak dobrze jak zcentralizowany, a nawet lepiej. Wykorzystywanie sieciowych zasobów jest po prostu droższe niż lokalnych. W późniejszej części zapoznamy się z wadami takiego rozproszonego podejścia, mając jednak w pamięci te zasadę popełnimy mniej błędów przy porównywaniu tych rozwiązań.
 
-A small project may only need a fraction of the features offered by such a
-system, but using systems that scale poorly for tiny projects is like using
-Roman numerals for calculations involving small numbers.
+Mały projekt może wymagać jedynie ułamka funkcji oferowanych przez taki system, ale używanie rozwiązań mało skalowalnych jest jak używanie rzymskich liczb jedynie w obliczeniach na małych liczbach. 
 
-Moreover, your project may grow beyond your original expectations. Using Git from the outset is like carrying a Swiss army knife even though you mostly use it to open bottles. On the day you desperately need a screwdriver you'll be glad you have more than a plain bottle-opener.
+Co więcej, Twój projekt może urosnąć o wiele bardziej niż początkowo zakładałeś. Używanie Git’a od samego początku jest jak noszenie przy sobie szwajcarskiego scyzoryka, mimo że głównie używasz go do otwierania butelek. W dniu, kiedy desperacko będziesz potrzebował śrubokręta ucieszysz się, że masz przy sobie coś więcej niż otwieracz do butelek.
 
-=== Merge Conflicts ===
+=== Scalanie Konfilktów ===
 
-For this topic, our computer game analogy becomes too thinly stretched. Instead, let us again consider editing a document.
+Dla tego tematu trudno będzie nam wykorzystać analogię do gry komputerowej. Zamiast tego posłużymy się przykładem edycji dokumentu. 
 
-Suppose Alice inserts a line at the beginning of a file, and Bob appends one at the end of his copy. They both upload their changes. Most systems will automatically deduce a reasonable course of action: accept and merge their changes, so both Alice's and Bob's edits are applied.
+Przypuśćmy, że Alice wstawia linijkę na początku pliku, a Bob dodaję jedną na końcu własnej kopii. Oboje wgrywają swoje zmiany. Większość systemów automatycznie na podstawie dedukcji uwzględni zmiany obojga i scali je w jednym dokumencie.
 
-Now suppose both Alice and Bob have made distinct edits to the same line. Then it is impossible to proceed without human intervention. The second person to upload is informed of a _merge conflict_, and must choose one edit over another, or revise the line entirely.
+Teraz przypuśćmy, że Alice I Bob oboje dokonali zmian w tej samej linijce tekstu. W takim przypadku system nie poradzi sobie bez intewrwencji ludzkiej. Druga w kolejności osoba wgrywająca swoje zmiany zosanie poinformowana o _merge conflict_ ( konflikcie scalania )i musi wybrać która wersja pozostanie lub poprawić całą linijkę od nowa.
 
-More complex situations can arise. Version control systems handle the simpler cases themselves, and leave the difficult cases for humans. Usually their behaviour is configurable.
+Mogą się też pojawić o wiele bardziej skomplikowane sytuacje. Systemy kontroli wersji mogą sobie same poradzić prostymi przypadkami, a trudne pozostawić ludziom. Przeważnie ich zachowanie w takich sytuacjach jest konfigurowalne.
+
