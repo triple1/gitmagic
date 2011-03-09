@@ -80,15 +80,15 @@ Przekładając to na analogię do gry komputerowej:
 
 - *`git reset --hard`*: wczytaj stary save i usuń wszystkie nowsze od niego.
 
-- *`git checkout`*: wczytaj starą grę, ale jeśli zagrasz, to stan gry zmieni się w stosunku do poprzedniego i zapisów gry które powstały po nim. Jakiekolwiek zapisy gry znajdą się w nowym branch ( gałęzi ) odzwierciedlającej alternatywną rzeczywistość, w któ®ej się znalazłeś. <<branch, Tym zajmiemy się później>>.
+- *`git checkout`*: wczytaj starą grę, ale jeśli zagrasz, to stan gry zmieni się w stosunku do poprzedniego i zapisów gry które powstały po nim. Jakiekolwiek zapisy gry znajdą się w nowym branch ( gałęzi ) odzwierciedlającej alternatywną rzeczywistość, w której się znalazłeś. <<branch, Tym zajmiemy się później>>.
 
 Możesz wybrać tylko konkretne pliku I podkatalogi, które chcesz przywrócić, przez podanie ich nazw na końcu polecenia:
 
  $ git checkout 82f5 some.file another.file
 
-Uważaj, bo taka forma *checkout* możę po cichu nazpisać pliki. Żeby zapobiec wypadkom, zawsze wykonuj commit przed używaniem jakiekolwiek komendy checkout, zwłaszcza gdy się uczysz Git. Co do zasady, zawsze kiedy nie jesteś pewny wyniku jakiejś komendy, najpierw użyj polecenia *git commit -a*.
+Uważaj, bo taka forma *checkout* może po cichu nadpisać pliki. Żeby zapobiec wypadkom, zawsze wykonuj commit przed używaniem jakiekolwiek komendy checkout, zwłaszcza gdy się uczysz Git. Co do zasady, zawsze kiedy nie jesteś pewny wyniku jakiejś komendy, najpierw użyj polecenia *git commit -a*.
 
-Nie lubisz kopiowania i wklejania sum konrolnych? Możesz użyć: 
+Nie lubisz kopiowania i wklejania sum kontrolnych? Możesz użyć: 
 
  $ git checkout :/"My first b"
 
@@ -96,38 +96,36 @@ Nie lubisz kopiowania i wklejania sum konrolnych? Możesz użyć:
 
  $ git checkout master~5
 
-=== Reverting ===
+=== Powracanie ===
 
-In a court of law, events can be stricken from the record. Likewise, you can pick specific commits to undo.
+W prawie sądowym wydarzenia mogą być wymazane z zapisów. Podobnie możesz wybrać który konkretnie commit chcesz cofnąć: 
 
  $ git commit -a
  $ git revert 1b6d
 
-will undo just the commit with the given hash. The revert is recorded as a new
-commit, which you can confirm by running *git log*.
+cofnie jedynie commit o podanej sumie kontrolnej. Takie cofnięcie zostaje odnotowane jako nowy commit, który to fakt możesz potwierdzić wydając polecenie *git log*. 
 
-=== Changelog Generation ===
+=== Generowanie Logu Zmian ===
 
-Some projects require a http://en.wikipedia.org/wiki/Changelog[changelog].
-Generate one by typing:
+Niektóre projekty potrzebują http://pl.wikipedia.org/wiki/Changelog [changelog]. Możesz go stworzyć w ten sposób:
 
  $ git log > ChangeLog
 
-=== Downloading Files ===
+=== Ściąganie plików ===
 
-Get a copy of a project managed with Git by typing:
+Kopię prijektu zarządzanego przez Git możesz ściągnąć w ten sposób: 
 
- $ git clone git://server/path/to/files
+ $ git clone git://server/ścieżka/do/plików
 
-For example, to get all the files I used to create this site:
+Na przykład, żeby ściągnąć wszystkie pliki potrzebne do stworzenia tej strony: 
 
  $ git clone git://git.or.cz/gitmagic.git
 
-We'll have much to say about the *clone* command soon.
+Niedługo napiszę o wiele więcej o poleceniu *clone*.
 
-=== The Bleeding Edge ===
+=== Najnowsza Wersja ===
 
-If you've already downloaded a copy of a project using *git clone*, you can upgrade to the latest version with:
+Jeśli już ściągnąłeś kopię projektu używając *git clone*, to możesz aktualizować ją do najnowszej wersji za pomocą: 
 
  $ git pull
 
