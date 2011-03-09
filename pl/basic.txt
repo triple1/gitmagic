@@ -1,48 +1,48 @@
-== Podstawowe sztuczki ==
+﻿== Podstawowe sztuczki ==
 
 Zamiast nurkować od razu w morzu poleceń Git, używaj na początek tych podsawowych przykładów. Każdy z nich jest użyteczny mimo swojej prostoty. Tak naprawdę w pierwszych miesiącach mojej przygody z Git nigdy nie wyszedłem poza materiał z tego rozdziału.
 
-=== Saving State ===
+=== Zapisywanie Stanu ===
 
-About to attempt something drastic? Before you do, take a snapshot of all files
-in the current directory with:
+Zamierzasz zrobić coś drastycznego? Zanim to zrobisz, wykonaj migawkę wszystkich plików w aktualnym katalogu poleceniem:
 
  $ git init
  $ git add .
- $ git commit -m "My first backup"
+ $ git commit -m "Mój pierwszy backup"
 
-Now if your new edits go awry, restore the pristine version:
+Teraz, jeśli Twoje edycje okazały się chybione, przywróć poprzednią, nieskazitelną wersję:
 
  $ git reset --hard
 
-To save the state again:
+Aby znowy zapisan stan:
 
- $ git commit -a -m "Another backup"
+ $ git commit -a -m "Kolejny backup"
 
-=== Add, Delete, Rename ===
+=== Dodaj, Usuń, Zmień nazwę ===
 
-The above only keeps track of the files that were present when you first ran *git add*. If you add new files or subdirectories, you'll have to tell Git:
+Poprzedni paragraph odnosi się jedynie do plików, które istnieją kiedy pierwszy raz wykonujesz *git add*. Jeśli dodasz nowe pliki lub podkatalogi, będziesz musiał poinformować o tym Git:
 
  $ git add readme.txt Documentation
 
-Similarly, if you want Git to forget about certain files:
+Analogicznie, jeśli będziesz chciał aby Git zapomniał o pewnych plikach:
 
  $ git rm kludge.h obsolete.c
  $ git rm -r incriminating/evidence/
 
-Git deletes these files for you if you haven't already.
+Jeśli sam nie usunąłeś wcześniej tych plików, Git zrobi to za Ciebie.
 
-Renaming a file is the same as removing the old name and adding the new name. There's also the shortcut *git mv* which has the same syntax as the *mv* command. For example:
+Zmiana nazwy pliku jest tym samym co usunięcie starej nazwy I dodanie nowej. Istnieje do tego skrót *git mv*, który ma taką samą składnię jak polecenie *mv*, na przykład: 
 
  $ git mv bug.c feature.c
 
-=== Advanced Undo/Redo ===
+=== Zaawansowane  Cofnij/Przywróć ===
 
-Sometimes you just want to go back and forget about every change past a certain point because they're all wrong. Then:
+Czasami chcesz po prostu wrócić do porzedniej wersji I zapomnieć o wszystkich zmianach, które po niej nastąpiły, ponieważ wszystkie były błędne. Robisz wtedy tak:
 
  $ git log
 
-shows you a list of recent commits, and their SHA1 hashes:
+Pokazuje Ci listę ostatnich commits (zapisów) i ich sumy kontrolne SHA1:
+
 
 ----------------------------------
 commit 766f9881690d240ba334153047649b8b8f11c664
@@ -58,46 +58,41 @@ Date:   Thu Jan 1 00:00:00 1970 +0000
     Initial commit.
 ----------------------------------
 
-The first few characters of the hash are enough to specify the commit;
-alternatively, copy and paste the entire hash. Type:
+Pierwsze kilka znaków sumy kontrolnej wystarczą aby jednoznacznie określić commit, alternatywnie możesz skopiować i wkleić całą sumę. Napisz: 
 
  $ git reset --hard 766f
 
-to restore the state to a given commit and erase all newer commits from the record permanently.
+Żeby przywrócić stan konkretnego commit’a i wymazać nieodwracalnie wszystkie nowsze od niego.
 
-Other times you want to hop to an old state briefly. In this case, type:
+Innym razem możesz chcieć jedynie skoczyć na chwilę do poprzedniego stanu. W taki przypadku użyj napisz:
 
  $ git checkout 82f5
 
-This takes you back in time, while preserving newer commits. However, like time travel in a science-fiction movie, if you now edit and commit, you will be in an alternate reality, because your actions are different to what they were the first time around.
+To polecenie zabierze Cię z powrotem w czasie, ale zachowuje wszystko co się stało później. Jednakże, tak jak z podróżami w czasie w filmach science-fiction, jeśli teraz coś zmienisz to znajdziesz się w alternatywnej rzeczywistości, ponieważ Twoje zmiany są inne niż te, stworzone kiedy tu byłeś pierwszy raz. 
 
-This alternate reality is called a 'branch', and <<branch,we'll have more to say about this later>>. For now, just remember that
+Ta alternatywna rzeczywistość nazywa się 'branch' ( gałąź ) i <<branch, o niej pomówimy później>>. Na razie, po prostu zapamiętaj, że 
 
  $ git checkout master
 
-will take you back to the present. Also, to stop Git complaining, always
-commit or reset your changes before running checkout.
+zabierze Cię z powrotem do teraźniejszości. Dodatkowo, żeby Git przestał narzekać, zawsze wykonuj polecenie commit lub reset przed używaniem checkout. 
 
-To take the computer game analogy again:
+Przekładając to na analogię do gry komputerowej: 
 
-- *`git reset --hard`*: load an old save and delete all saved games newer than the one just loaded.
+- *`git reset --hard`*: wczytaj stary save i usuń wszystkie nowsze od niego.
 
-- *`git checkout`*: load an old game, but if you play on, the game state will deviate from the newer saves you made the first time around. Any saved games you make now will end up in a separate branch representing the alternate reality you have entered. <<branch,We deal with this later>>.
+- *`git checkout`*: wczytaj starą grę, ale jeśli zagrasz, to stan gry zmieni się w stosunku do poprzedniego i zapisów gry które powstały po nim. Jakiekolwiek zapisy gry znajdą się w nowym branch ( gałęzi ) odzwierciedlającej alternatywną rzeczywistość, w któ®ej się znalazłeś. <<branch, Tym zajmiemy się później>>.
 
-You can choose only to restore particular files and subdirectories by appending them after the command:
+Możesz wybrać tylko konkretne pliku I podkatalogi, które chcesz przywrócić, przez podanie ich nazw na końcu polecenia:
 
  $ git checkout 82f5 some.file another.file
 
-Take care, as this form of *checkout* can silently overwrite files. To
-prevent accidents, commit before running any checkout command, especially when
-first learning Git. In general, whenever you feel unsure about any operation, Git command or not, first run *git commit -a*.
+Uważaj, bo taka forma *checkout* możę po cichu nazpisać pliki. Żeby zapobiec wypadkom, zawsze wykonuj commit przed używaniem jakiekolwiek komendy checkout, zwłaszcza gdy się uczysz Git. Co do zasady, zawsze kiedy nie jesteś pewny wyniku jakiejś komendy, najpierw użyj polecenia *git commit -a*.
 
-Don't like cutting and pasting hashes? Then use:
+Nie lubisz kopiowania i wklejania sum konrolnych? Możesz użyć: 
 
  $ git checkout :/"My first b"
 
-to jump to the commit that starts with a given message.
-You can also ask for the 5th-last saved state:
+żeby przeskoczyć do commit’a, który zaczyna się od podanej wiadomości. Możesz również poprosić o powrót do 5-tego liczonego od najświeższego zapisanego stanu:
 
  $ git checkout master~5
 
