@@ -129,71 +129,72 @@ Jeśli już ściągnąłeś kopię projektu używając *git clone*, to możesz a
 
  $ git pull
 
-=== Instant Publishing ===
+=== Natychmiastowe Publikowanie ===
 
-Suppose you've written a script you'd like to share with others. You could just tell them to download from your computer, but if they do so while you're improving the script or making experimental changes, they could wind up in trouble.  Of course, this is why release cycles exist. Developers may work on a project frequently, but they only make the code available when they feel it is presentable.
+Przypuśćmy, że napisałeś skrypt, którym chciałbyś się podzielić z innymi. Możesz im po prostu powiedzieć żeby ściągnęli go z Twojego komputera, ale jeśli to zrobią w czasie, kiedy poprawiasz ten skrypt lub dokonujesz jakichś eksperymentalnych zmian, mogą wpaść w kłopoty. Oczywiście właśnie po to istnieje cykl publikacji. Programiści mogą często pracować nad projektem, ale udostępniają kod dopiero, kiedy czują, że jest gotowy. 
 
-To do this with Git, in the directory where your script resides:
+Żeby wykonać coś takiego za pomocą Git, wywołaj następujące polecenia w katalogu, w którym znajduje się Twój skrypt: 
 
  $ git init
  $ git add .
- $ git commit -m "First release"
+ $ git commit -m "Pierwsza publikacja"
 
-Then tell your users to run:
+Potem poinformuj innych żeby wykonali polecenie: 
 
- $ git clone your.computer:/path/to/script
+ $ git clone twoj.komputer:/sciezka/do/skryptu
 
-to download your script. This assumes they have ssh access. If not, run *git daemon* and tell your users to instead run:
+żeby mogli ściągnąć Twój skrypt. Zakładamy, że mają dostęp przez SSH. Jeśli nie, uruchom *demona git* i powiedz im, żeby zamiast poprzedniego wywołali następujące polecenie: 
 
- $ git clone git://your.computer/path/to/script
+ $ git clone git://twoj.komputer:/sciezka/do/skryptu 
 
-From now on, every time your script is ready for release, execute:
+Od tej pory za każdym razem, gdy Twój skrypt jest gotowy do opublikowania, wykonaj: 
 
- $ git commit -a -m "Next release"
+ $ git commit -a -m "Następna publikacja"
 
-and your users can upgrade their version by changing to the directory containing your script and typing:
+A Twoi użytkownicy, będą mogli aktualizować swoją wersję poprzez wejście do katalogu, w którym jest Twój skrypt i wywołanie: 
 
  $ git pull
 
-Your users will never end up with a version of your script you don't want them to see.
+Dzięki temu Twoi użytkownicy nigdy nie będą mieli dostępu do wersji, której nie chcesz żeby oglądali. 
 
-=== What Have I Done? ===
+=== Co Ja Zrobiłem? ===
 
-Find out what changes you've made since the last commit with:
+Sprawdź jakie zmiany wprowadziłeś od ostatniego commit’a za pomocą: 
 
  $ git diff
 
-Or since yesterday:
+Albo od wczoraj:
 
  $ git diff "@{yesterday}"
 
-Or between a particular version and 2 versions ago:
+Albo pomiędzy którąś konkretną wersją I 2 wersjami temu: 
 
  $ git diff 1b6d "master~2"
 
-In each case the output is a patch that can be applied with *git apply*.
-Try also:
+W każdym przypadku dane wyjściowe są łatką, która może być zastosowana za pomocą *git apply*.
+Spróbuj również:
 
  $ git whatchanged --since="2 weeks ago"
 
-Often I'll browse history with http://sourceforge.net/projects/qgit[qgit] instead, due to its slick photogenic interface, or http://jonas.nitro.dk/tig/[tig], a text-mode interface that works well over slow connections. Alternatively, install a web server, run *git instaweb* and fire up any web browser.
+Często przeglądam historię za pomocą http://sourceforge.net/projects/qgit[qgit], ze względu na jego przyjazny interfejs, albo http://jonas.nitro.dk/tig/[tig], program z interfejsem w trybie tekstowym, który działa dobrze w przypadku wolnych łączy.
+Alternatywnie zainstaluj serwer WWW, uruchom *git instaweb* i odpal dowolną przeglądarkę. 
 
-=== Exercise ===
+=== Ćwiczenia ===
 
-Let A, B, C, D be four successive commits where B is the same as A except some files have been removed. We want to add the files back at D. How can we do this?
+Niech A, B,C, D będą czterema kolejnymi commit’ami, przy czym B jest taki sam jak A, oprócz faktu usunięcia kliku plików. Chcemy dodać te pliki z powrotem do D. Jak to można zrobić? 
 
-There are at least three solutions. Assuming we are at D:
+Istnieją co najmniej trzy rozwiązania. Zakładając, że jesteśmy w D: 
 
-  1. The difference between A and B are the removed files. We can create a patch representing this difference and apply it:
+  1. Różnicą pomiędzy A i B są usunięte pliki. Możemy utworzyć łatkę reprezentującą tą różnicę i zaaplikować ją: 
 
    $ git diff B A | git apply
 
-  2. Since we saved the files back at A, we can retrieve them:
+  2. Jako, że zapisaliśmy pliki w A, możemy je wyciągnąć za pomocą: 
 
    $ git checkout A foo.c bar.h
 
-  3. We can view going from A to B as a change we want to undo:
+  3. Możemy również spojrzeć na przejście z A do B jako zmianę ( commit ) jaki chcemy cofnąć: 
 
    $ git revert B
 
-Which choice is best? Whichever you prefer most. It is easy to get what you want with Git, and often there are many ways to get it.
+Który wybór jest najlepszy? Ten, który Tobie najbardziej pasuje. Z Git łatwo jest osiągnąć to na czym nam zależy I często istnieje wiele sposobów na to.
