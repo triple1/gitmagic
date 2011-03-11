@@ -179,7 +179,7 @@ Spróbuj również:
 Często przeglądam historię za pomocą http://sourceforge.net/projects/qgit[qgit], ze względu na jego przyjazny interfejs, albo http://jonas.nitro.dk/tig/[tig], program z interfejsem w trybie tekstowym, który działa dobrze w przypadku wolnych łączy.
 Alternatywnie zainstaluj serwer WWW, uruchom *git instaweb* i odpal dowolną przeglądarkę. 
 
-=== Ćwiczenia ===
+=== Ćwiczenie ===
 
 Niech A, B,C, D będą czterema kolejnymi commit’ami, przy czym B jest taki sam jak A, oprócz faktu usunięcia kliku plików. Chcemy dodać te pliki z powrotem do D. Jak to można zrobić? 
 
