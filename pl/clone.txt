@@ -28,7 +28,7 @@ Zainicjuj repozytorium Git dla swoich plików:
  $ git add .
  $ git commit -m "Początkowy commit"
 
-Na centralnym serwerze zainicjuj *czyste repozytorium* w jakimś katalogu:
+Na centralnym serwerze zainicjuj *gołe repozytorium* w jakimś katalogu:
 
  $ mkdir proj.git
  $ cd proj.git
@@ -66,32 +66,21 @@ I na końcu wysyła wynik swojej pracy do centralnego repozytoium:
 
 Jeśli na serwerze pojawiły się jakieś nowe zmiany dokonane przez innych programistów, push się nie uda i trzeba będzie znowu ściągnąć najnowszą wersję ( pull ), rozwiązać potencjalne konflikty I spróbować ponownie. 
 
-=== Bare repositories ===
+=== Gołe Repozytoria ===
 
-A bare repository is so named because it has no working directory; it only contains files that are normally hidden away in the `.git` subdirectory. In other words, it maintains the history of a project, and never holds a snapshot of any given version.
+Gołe repozytorium nazywa sie tak, ponieważ nie ma katalogu roboczego; zawiera jedynie pliki, które są normalnie ukryte w podkatalogu `.git`. Innymi słowy, zapisuje ono historię projektu, ale nigdy nie przetrzymuje migawki żadnej wersji. 
 
-A bare repository plays a role similar to that of the main server in a
-centralized version control system: the home of your project. Developers clone
-your project from it, and push the latest official changes to it. Typically it
-resides on a server that does little else but disseminate data. Development
-occurs in the clones, so the home repository can do without a working
-directory.
+Gołe repozytorium odgrywa rolę podobną do tej, jaką pełnie główny serwer w zcentralizowanym systemie kontroli wersji: jest to ‘dom’ projektu. Programiści mogą klonować z niego projekty oraz wysyłać do niego najnowsze wersje zmian. Przeważnie znajduje się ono na serwerze, którego rola polega głównie na rozpowszechnianiu danych. Rozwój aplikacji odbywa się w klonach, więc to bazowe repozytorium może sobie poradzić bez swojego katalogu roboczego. 
 
-Many Git commands fail on bare repositories unless the `GIT_DIR` environment variable is set to the repository path, or the `--bare` option is supplied.
+Wiele komend Git nie zadziała w gołym repozytorium dopóki nie zostanie ustawiona zmienna środowiskowa`GIT_DIR` zawierająca ścieżkę do repozytorium lub nie zostanie podany parametr `--bare`.
 
-=== Push versus pull ===
+=== Push kontra Pull ===
 
-Why did we introduce the push command, rather than rely on the familiar pull
-command? Firstly, pulling fails on bare repositories: instead you must 'fetch',
-a command we later discuss. But even if we kept a normal repository on the
-central server, pulling into it would still be cumbersome. We would have to
-login to the server first, and give the pull command the network address of the
-machine we're pulling from. Firewalls may interfere, and what if we have no
-shell access to the server in the first place?
+Po co wprowadziliśmy komendę push, zamiast polegać na znajomym poleceniu pull? Po pierwsze pul lnie działa na gołych repozytoriach: zamiast niego trzeba użyć 'fetch', komenda, którą omówimy później. Nawet jeśli na centralnym serwerze trzymamy normalne repozytorium, używanie pull żeby coś do niego wgrać byłoby uciążliwe. Najpierw musielibyśmy się zalogować na serwer, a następnie wykonać polecenie pull z adresu z jakiego chcemy wgrać zmiany. Przeszkadzać w tym mogą firewall’e ( zapory ogniowe ) albo co w sytuacji, w której nie mamy dostępu do powłoki tego serwera? 
 
-However, apart from this case, we discourage pushing into a repository, because confusion can ensue when the destination has a working directory.
+Niemniej, pomijając taki przypadek, raczej zniechęcamy do używania polecenia push, ponieważ mogą pojawić się problemy, gdy serwer docelowy posiada katalog roboczy. 
 
-In short, while learning Git, only push when the target is a bare repository; otherwise pull.
+W skrócie: w czasie nauki Git, wykonuj push jedynie, kiedy celem jest gołe repozytorium; w pozostałych przypadkach wykonuj pull. 
 
 === Forking a Project ===
 
