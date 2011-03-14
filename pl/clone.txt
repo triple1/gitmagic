@@ -1,4 +1,4 @@
-﻿== Cloning Around ==
+﻿== Wokół Klonowania ==
 
 W starszych wersjach systemów kontroli wersji, checkout jest standardową operacją przeznaczoną do zdobywania plików. W jego wyniku otrzymujesz mnóstwo plików w ich aktualnie zapisanym stanie. 
 
@@ -82,107 +82,104 @@ Niemniej, pomijając taki przypadek, raczej zniechęcamy do używania polecenia 
 
 W skrócie: w czasie nauki Git, wykonuj push jedynie, kiedy celem jest gołe repozytorium; w pozostałych przypadkach wykonuj pull. 
 
-=== Forking a Project ===
+=== Rozwidlanie Projektu ===
 
-Sick of the way a project is being run? Think you could do a better job? Then on your server:
+Masz już dość tego jak prowadzony jest jakiś projekt? Myślisz, że zrobiłbyś to lepiej? W takim razie wykonaj na swoim serwerze: 
 
- $ git clone git://main.server/path/to/files
+ $ git clone git://główny.serwer/ścieżka/do/plików
 
-Next, tell everyone about your fork of the project at your server.
+Następnie powiedz wszystkim o rozwidleniu projektu na Twój serwer. 
 
-At any later time, you can merge in the changes from the original project with:
+W każdym momencie możesz scalić zmiany z oryginalnego projektu używając: 
 
  $ git pull
 
-=== Ultimate Backups ===
+=== Niezniszczalne Kopie Zapasowe ===
 
-Want numerous tamper-proof geographically diverse redundant archives? If your project has many developers, don't do anything! Every clone of your code is effectively a backup. Not just of the current state, but of your project's entire history. Thanks to cryptographic hashing, if anyone's clone becomes corrupted, it will be spotted as soon as they try to communicate with others.
+Chcesz mieć wiele bezpiecznych, redundantnych archiwów położonych w zróżnicowanych geograficznie lokalizacjach? Jeśli Twój projekt ma wielu programistów, nic nie rób! Każdy klon Twojego kodu jest kopią zapasową. Nie tylko stanu aktualnego projektu, ale całej historii zmian. Jeśli czyjakolwiek kopia zostanie uszkodzona, to dzięki generowanym sumom kontrolnym, fakt ten zostanie od razu zauważony przy pierwszej próbie kontaktu z innymi repozytoriami. 
 
-If your project is not so popular, find as many servers as you can to host clones.
+Jeśli Twój projekt nie jest szczególnie popularny, znajdź tyle serwerów mogących przechowywać jego klony, ile tylko dasz radę. 
 
-The truly paranoid should always write down the latest 20-byte SHA1 hash of the HEAD somewhere safe. It has to be safe, not private. For example, publishing it in a newspaper would work well, because it's hard for an attacker to alter every copy of a newspaper.
+Ktoś naprawdę paranoidalny powinien zawsze przechowywać ostatni 20-bajtowy skrót sumy kontrolnej ( SHA1 ) HEAD, w jakimś bezpiecznym miejscu. Musi to być miejsce bezpieczna a nie koniecznie prywatne. Na przykład, opublikowanie go w gazecie powinno spełnić to zadanie, ponieważ komuś atakującemu raczej ciężko będzie zmienić ten zapis w każdej jej kopii. 
 
-=== Light-Speed Multitask ===
+=== Wielozadaniowość z Prędkością Światła ===
 
-Say you want to work on several features in parallel. Then commit your project and run:
+Przypuśćmy, że chciałbyś pracować nad kilkoma funkcjami równolegle.W taki przypadku wykonaj commit i napisz: 
 
- $ git clone . /some/new/directory
+ $ git clone . /jakiś/nowy/katalog
 
-Thanks to http://en.wikipedia.org/wiki/Hard_link[hardlinking], local clones
-require less time and space than a plain backup.
+Dzięki http://pl.wikipedia.org/wiki/Dowi%C4%85zanie_twarde [dowiązaniom twardym], lokalne klony wymagają mniej czasu i przestrzeni niż normalna kopia zapasowa. 
 
-You can now work on two independent features simultaneously. For example, you
-can edit one clone while the other is compiling. At any time, you can commit
-and pull changes from the other clone:
+Od tej pory możesz pracować nad dwiema niezależnymi funkcjami programu w tym samym czasie. Na przykład możesz edytować jednego klona, w czasie gdy drugi się kompiluje. W każdy momencie możesz wykonać commit i ściągnąć zmiany z drugiego klona ( pull ): 
 
- $ git pull /the/other/clone HEAD
 
-=== Guerilla Version Control ===
+ $ git pull /drugi/klon HEAD
 
-Are you working on a project that uses some other version control system, and you sorely miss Git? Then initialize a Git repository in your working directory:
+=== Partyzancka Kontrola Wersji ===
+
+Pracujesz nad jakimś projektem, który obecnie używa innego system kontroli wersji i bardzo tęsknisz za Git? Zainicjuj nowe repozytorium Git w swoim katalogu roboczym: 
 
  $ git init
  $ git add .
- $ git commit -m "Initial commit"
+ $ git commit -m "Początkowy commit"
 
-then clone it:
+sklonuj go:
 
- $ git clone . /some/new/directory
+ $ git clone . /nowy/katalog
 
-Now go to the new directory and work here instead, using Git to your heart's content. Once in a while, you'll want to sync with everyone else, in which case go to the original directory, sync using the other version control system, and type:
+Teraz przejdź do nowego katalogu i pracuj tam, używając Git. Raz na jakiś czas, kiedy będziesz chciał zsynchronizować pracę z innymi, przejdź z powrotem do oryginalnego katalogu, zsynchronizuj owoce swojej pracy z innymi, a następnie napisz: 
 
  $ git add .
- $ git commit -m "Sync with everyone else"
+ $ git commit -m "Synchronizacja z innymi"
 
-Then go to the new directory and run:
+Potem przejdź do nowego katalogu i wykonaj:
 
- $ git commit -a -m "Description of my changes"
+ $ git commit -a -m "Opis moich zmian"
  $ git pull
 
-The procedure for giving your changes to everyone else depends on the other version control system. The new directory contains the files with your changes. Run whatever commands of the other version control system are needed to upload them to the central repository.
+Procedura udostępniania swoich zmian innym zależy od tego drugiego systemu kontroli wersji. Nowy katalog zawiera pliki z Twoimi zmianami. Wykonaj operacje potrzebne aby wysłać pliki to centralnego repozytorium drugiego systemu kontroli wersji. 
 
-Subversion, perhaps the best centralized version control system, is used by countless projects. The *git svn* command automates the above for Subversion repositories, and can also be used to http://google-opensource.blogspot.com/2008/05/export-git-project-to-google-code.html[export a Git project to a Subversion repository].
+Sybversion, prawdopodobnie najlepszy zcentralizowany system kontroli wersji, jest obecnie używany w niezliczonych projektach. Komenda *git svn* automatyzuje wcześniej opisane operacje w kontaktach z repozytorium Subversion oraz może być użyty do http://google-opensource.blogspot.com/2008/05/export-git-project-to-google-code.html [eksportowania projektu Git do repozytorium Subversion]. 
 
 === Mercurial ===
 
-Mercurial is a similar version control system that can almost seamlessly work in tandem with Git. With the `hg-git` plugin, a Mercurial user can losslessly push to and pull from a Git repository.
+Mercurial jest podobnym do Git systemem kontroli wersji, który może gładko z nim współpracować. Użytkownik Mercurial może za pomocą wtyczki hg-git bezstratnie wykonywać polecenia push i pull do repozytorium Git.
 
-Obtain the `hg-git` plugin with Git:
+Wtyczkę hg-git można pobrać stąd za pomocą Git: 
 
  $ git clone git://github.com/schacon/hg-git.git
 
-or Mercurial:
+lub Mercurial:
 
  $ hg clone http://bitbucket.org/durin42/hg-git/
 
-Sadly, I am unaware of an analogous plugin for Git. For this reason, I advocate Git over Mercurial for the main repository, even if you prefer Mercurial. With a Mercurial project, usually a volunteer maintains a parallel Git repository to accommodate Git users, whereas thanks to the `hg-git` plugin, a Git project automatically accommodates Mercurial users.
+Niestety nie znam analogicznej wtyczki dl Git’a. Z tego powodu opowiadam się za stosowaniem Git a nie Mercurial jako głównego repozytorium, nawet jeśli preferujesz Mercurial. W przypadku projektów Mercurial, najczęściej ochotnik utrzymuje równolegle repozytorium Git, aby udostępnić go użytkownikom Git, natomiast używając wtyczki `hg-git`, repozytorium Git robi to automatycznie dla użytkowników Mercurial. 
 
-Although the plugin can convert a Mercurial repository to a Git repository by pushing to an empty repository, this job is easier with the `hg-fast-export.sh` script, available from:
+Jakkolwiek ta wtyczka umie przekonwertować repozytorim Mercurial do Git’a przez wykonanie push do pustego repozytorium, to zadanie można łatwiej wykonać za pomocą skryptu `hg-fast-export.sh`, dostępnego tutaj: 
 
  $ git clone git://repo.or.cz/fast-export.git
 
-To convert, in an empty directory:
+Aby wykonać konwersję, wykonaj w pustym katalogu: 
 
  $ git init
  $ hg-fast-export.sh -r /hg/repo
 
-after adding the script to your `$PATH`.
+Oczywiście po dodaniu tego skryptu do `$PATH`.
 
 === Bazaar ===
 
-We briefly mention Bazaar because it is the most popular free distributed
-version control system after Git and Mercurial.
+Krótko wspomnimy o Bazaar, ponieważ jest to, zaraz po Git I Mercurial, najpopularniejszy rozproszony system kontroli wersji. 
 
-Bazaar has the advantage of hindsight, as it is relatively young; its designers could learn from mistakes of the past, and sidestep minor historical warts. Additionally, its developers are mindful of portability and interoperation with other version control systems.
+Bazaar ma przewagę patrzenia z perspektywy czasu, ponieważ jest stosunkowo młody; jego projektanci mogli się uczyć na błędach z przeszłości i ominąć niektóre mniejsze potknięcia. Dodatkowo jego projektanci pamiętali o przenośności i współpracy z innymi systemami kontroli wersji. 
 
-A `bzr-git` plugin lets Bazaar users work with Git repositories to some extent. The `tailor` program converts Bazaar repositories to Git repositories, and can do so incrementally, while `bzr-fast-export` is well-suited for one-shot conversions.
+Wtyczka `bzr-git` pozwala w pewnym stopniu na pracę z repozytoriami Git. Program `tailor` konwertuje repozytorium Bazaar na Git I może to wykonywać przyrostowo, natomiast `bzr-fast-export` działa dobrze w przypadku jednorazowych konwersji. 
 
-=== Why I use Git ===
+=== Dlaczego używam Git ===
 
-I originally chose Git because I heard it could manage the unimaginably unmanageable Linux kernel source. I've never felt a need to switch. Git has served admirably, and I've yet to be bitten by its flaws. As I primarily use Linux, issues on other platforms are of no concern.
+Na początku wybrałem Git, ponieważ usłyszałem, że można za jego pomocą zarządzać niezarządzalnym źródłem jądra Linux’a. Nigdy też nie czułem potrzeby zmiany. Git spisuje się bardzo dobrze i jego waty mogą mnie dopiero kiedyś spotkać. Jako, że używam przede wszystkim Linux’a, problemy z innymi platformami nie są dla mnie zmartwieniem. 
 
-Also, I prefer C programs and bash scripts to executables such as Python scripts: there are fewer dependencies, and I'm addicted to fast running times.
+Dodatkowo, wolę programy napisane w C oraz skrypty Bash niż pliki wykonywalne napisane np. w Python’ie: mają mniej zależności i jestem uzależniony od szybkiego ich działania. 
 
-I did think about how Git could be improved, going so far as to write my own Git-like tool, but only as an academic exercise. Had I completed my project, I would have stayed with Git anyway, as the gains are too slight to justify using an oddball system.
+Myślałem o tym, w jaki sposób Git mógłby być poprawiony, nawet posuwając się do napisania własnego Git-o podobnego narzędzia, ale tylko czysto akademicko. Nawet po ukończeniu tego projektu pozostałem przy Git, ponieważ poprawa była tak niewielka, że nie uzasadniała używania udziwnionego systemu. 
 
-Naturally, your needs and wants likely differ, and you may be better off with another system. Nonetheless, you can't go far wrong with Git.
+Naturalnie, Twoje potrzeby lub oczekiwania mogą być inne I możę się okazać, że lepiej się dogadasz z innym systemem, jednakże nie wyjdziesz źle na używaniu Git.
