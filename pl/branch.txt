@@ -1,0 +1,192 @@
+== Branch Wizardry ==
+
+Natychmiastowe tworzenie ga³êzi i ³¹czenie s¹ najbardziej zabójczymi z cech Git. 
+
+*Problem*: zewnêtrzne czynniki nieuchronnie wymagaj¹ zmiany kontekstu. W wydanej wersji programu objawia siê bez uprzedzenia groŸny b³¹d. Termin oddania konkretnej funkcji siê zbli¿a. Programista, którego pomocy potrzebujesz przy jakiejœ kluczowej funkcji odchodzi. W tych wszystkich przypadkach musisz nagle rzuciæ to co robisz i skupiæ siê na kompletnie innym zadaniu. 
+
+Przerywanie Twojego ci¹gu myœlowego mo¿e byæ szkodliwe dla Twojej produktywnoœci, a im truniej jest zmieniæ konteksty, tym wiêksza strata. W przypadku zcentralizowanego systemu kontroli wersji musimy œci¹gn¹æ œwie¿¹ kopiê z serwera. Rozproszone systemy radz¹ sobie lepiej, jako, ¿e mo¿emy sklonowaæ poszukiwan¹ wersjê lokalnie. 
+
+Ale klonowanie oznacza kopiowanie ca³ego katalogu roboczego wraz z ca³¹ histori¹ do danego momentu. Nawet mimo tego, ¿e Git redukuje koszty takiej operacji poprzez dzielenie plików i twarde linki, to pliki nale¿¹ce do projektu musz¹ zostaæ odtworzone w ca³oœci w nowym katalogu roboczym. 
+
+*Rozwi¹zanie*: Git oferuje lepsze narzêdzie dla takich przypadków, które jest du¿o szybsze i oszczêdniejsze jeœli chodzi o przestrzeñ dyskow¹ ni¿ klonowanie: *git branch*.
+
+Za pomoc¹ tego magicznego s³owa, pliki w Twoim katalogu roboczym nagle zmieniaj¹ siê z jednej wersji na drug¹. Taka transformacja mo¿e wiêcej ni¿ jedynie cofanie siê do przesz³oœci lub wracanie. Twoje pliki mog¹ siê przeistaczaæ od ostatnim wydaniem, przez eksperymentalne do aktualnie rozwijanej wersji a nawet do wersji aktualnie rozwijanej przez Twojego kolegê i tak dalej. 
+
+=== The Boss Key ===
+
+Czy kiedykolwiek gra³eœ w jedn¹ z tych gier, w których po naciœniêciu klawisza (``the boss key''), ekran nagle poka¿e arkusz kalkulacyjny lub coœ innego? Na wypadek gdyby szef nagle wszed³ do biura w czasie gdy grasz móg³byœ szybko ukryæ grê? 
+
+W jakimœ katalogu: 
+
+ $ echo "Jestem sprytniejszy ni¿ mój szef." > moj_plik.txt
+ $ git init
+ $ git add .
+ $ git commit -m "pocz¹tkowy commit"
+
+Stworzyliœmy repozytorium Git, które œledzi jeden plik zawieraj¹cy konkretn¹ wiadomoœæ. Teraz napisz: 
+
+ $ git checkout -b boss  # po tym kroku wydaje siê, ¿e nic siê nie zmieni³o
+ $ echo "Mój szef jest sprytniejszy ode mnie." > moj_plik.txt
+ $ git commit -a -m "kolejny commit"
+
+Wygl¹da jakbyœmy w³aœnie nadpisali nasz plik i wykonali commit. Ale to tylko iluzja. Napisz: 
+
+ $ git checkout master  # prze³¹cz siê do oryginalnej wersji pliku
+
+i presto! Plik zosta³ przywrócony. I jeœli szef zdecyduje siê wêszyæ w tym katalogu, napisz: 
+
+ $ git checkout boss  # prze³¹cz na wersjê odpowiedni¹ dla oczu szefa
+
+Mo¿esz prze³¹czaæ siê pomiêdzy dwiema wersjami pliku tak czêsto jak tylko chcesz i wykonywaæ commit na ka¿dej niezale¿nie. 
+
+=== Brudna Robota ===
+
+[[ga³¹Ÿ]]
+Wiêc jeœli pracujesz tak jak¹ funkc¹ i z jakiegoœ powodu chcia³byœ wróciæ trzy wersje wstecz i tymczasowo umieœciæ kilka komend print ¿eby zobaczyæ czy wszystko dzia³a, wtedy: 
+
+ $ git commit -a
+ $ git checkout HEAD~3
+
+Teraz mo¿esz wszêdzie pododawaæ brzydki tymczasowy kod. Mo¿esz nawet wykonaæ commit po tych zmianach. Jak skoñczysz: 
+
+ $ git checkout master
+
+aby wróciæ do swojej oryginalnej pracy. Zwróæ uwagê, ¿e zatwierdzone zmiany siê nie zachowa³y. 
+
+A co jeœli jednak chcemy zachowaæ tymczasowe zmiany Prosto: 
+
+ $ git checkout -b dirty
+
+i wykonaj commit przed prze³¹czeniem siê z powrotem do ga³êzi master. Jeœli bêdziesz chcia³ wróciæ do tych nie³adnych zmian, napisz: 
+
+ $ git checkout dirty
+
+Natknêliœmy siê na t¹ komendê we wczeœniejszym rozdziale, w czasie omawiania wczytywania poprzednich stanów. Nareszcie mo¿emy opowiedzieæ ca³¹ historiê: zmiany plików do ¿¹danego stanu, ale musimy pozostawiæ ga³¹Ÿ master. Jekiekolwiek zmiany wykonane od teraz poprowadz¹ Twoje pliki inn¹ drog¹, któr¹ mo¿na nazwaæ póŸniej. 
+
+Innymi s³owy, po wykonaniu checkout do starego stanu Git automatycznie umieszcza Ciê w nowej, nienazwanej ga³êzi, która mo¿e zostaæ nazwana i zapisana za pomoc¹ *git checkout -b*. 
+
+=== Szybkie Naprawy ===
+
+Jesteœ w trakcie jakiejœ pracy, kiedy dostajesz polecenie aby rzuciæ wszystko i naprawiæ nowo odkryty b³¹d w commit `1b6d...`: 
+
+ $ git commit -a
+ $ git checkout -b fixes 1b6d
+
+Then once you've fixed the bug:
+
+ $ git commit -a -m "b³¹d naprawiony"
+ $ git checkout master
+
+i podejmij znowu pracê nad swoim wczeœniejszym zadaniem. Mo¿esz nawet 'w³¹czyæ' (merge) do swojej pracy œwie¿o upieczon¹ poprawkê: 
+
+ $ git merge fixes
+
+=== £¹czenie ===
+
+W przypadku niektórych systemów kontroli wersji tworzenie nowych ga³êzi jest proste, ale ³¹czenie ich z powrotem ju¿ nie. W przypadku Git ³¹czenie jest tak trywialne, ¿e mo¿esz nawet nie wiedzieæ, ¿e ma ono miejsce. 
+
+Tak naprawdê spotkaliœmy siê z ³¹czeniem ju¿ dawno temu. Komenda *pull* tak naprawdê 'œci¹ga' commit’y a nastêpnie ³¹czy je z aktualn¹ ga³êzi¹. Jeœli nie masz ¿adnych lokalnych zmian to ³¹czenie jest 'fast forward', zubo¿ony przypadek zbli¿ony do operacji pobierania w zcentralizowanych systemach kontroli wersji. Jeœli jednak masz istniej¹ jakieœ Twoje zmiany lokalne, Git spróbuje je po³¹czyæ automatycznie lub poinformuje Ciê o konfliktach. 
+
+Zwykle combi posiada dok³adnie jeden 'commit - rodzic', czyli poprzedni commit. £¹czenie ga³êzi owocuje commit’em, który ma co najmniej dwóch rodziców. A¿ siê prosi o pytanie: do którego commit odnosi siê `HEAD~10`? Commit mo¿e mieæ wielu rodziców, wiêc do którego wrócimy? 
+
+Okazuje siê, ¿e takie zapytanie wybierze za ka¿dym razem pierwszego z rodziców. To jest oczekiwane zachowanie, poniewa¿ aktualna ga³¹Ÿ zawsze staje siê pierwszy z rodziców podczas ³¹czenia; czêsto interesuj¹ Ciê zmiany wy³¹cznie z ga³êzi master, a nie te z ga³êzi po³¹czonych z ni¹. 
+
+Mo¿esz odnieœæ siê do konkretnego rodzica za pomoc¹ ^. Na przyk³ad, aby pokazaæ logi zmian drugiego z rodziców: 
+
+ $ git log HEAD^2
+
+Dla pierwszego z rodziców mo¿esz pomin¹æ numer. Na przyk³ad, aby pokazaæ ró¿nice w przypadku pierwszego z rodziców: 
+
+ $ git diff HEAD^
+
+Mo¿esz po³¹czyæ tê notacjê z innymi, na przyk³ad: 
+
+ $ git checkout 1b6d^^2~10 -b ancient
+
+Rozpoczyna ga³¹Ÿ ``ancient'' reprezentuj¹c¹ stan sprzed 10 commit’ów wstecz drugiego z rodziców od commit pierwszego z rodziców zaczynaj¹cego siê od 1b6d. 
+
+=== Uninterrupted Workflow ===
+
+Czêsto przy projektach sprzêtowych, drugi krok w planie musi poczekaæ na ukoñczenie pierwszego. Samochód czekaj¹cy nabêdzie czeka³ w gara¿u  na przyjœcie konkretnej czêœci z fabryki. Prototyp mo¿e musieæ czekaæ na wyprodukowanie mikroprocesora zanim bêdzie mo¿na kontynuowaæ budowê. 
+
+Projekt dotycz¹cy oprogramowania mo¿e byæ podobny, Druga czêœæ jakiejœ nowej funkcji mo¿e musieæ czekaæ, a¿ pierwsza zostanie wydana i przetestowana. Niektóre projekty wymagaj¹, aby kod zosta³ przejrzany przed zaakceptowaniem, wiêc mo¿esz musieæ czekaæ na zatwierdzenie pierwszej czêœci przed rozpoczêciem drugiej. 
+
+Dziêki bezbolesnemu ³¹czeniu i ga³êziom, mo¿emy nagi¹æ te zasady i rozpocz¹æ pracê nad drug¹ czêœci¹ przed oficjalnym ukoñczeniem czêœci pierwszej. Powiedzmy, ¿e wykona³eœ commit i wys³a³eœ pierwsz¹ czêœæ do zatwierdzenia. Przypuœæmy równie¿, ¿e znajdujesz siê w ga³êzi `master`. Utwórz now¹ ga³êŸ: 
+
+ $ git checkout -b part2
+
+Nastêpnie pracuj nad drug¹ czêœci¹, zatwierdzaj zmiany, które wykonasz. B³¹dziæ jest rzecz¹ ludzk¹, co oznacza, ¿e czêsto mo¿esz chcieæ wracaæ wstecz i naprawiaæ coœ w czêœci pierwszej. Jeœli masz szczêœcie albo jesteœ bardzo dobry mo¿esz pomin¹æ te linijki: 
+
+ $ git checkout master  # wróæ do czêœci pierwszej
+ $ napraw_problem
+ $ git commit -a        # zatwierdŸ zmiany
+ $ git checkout part2   # wróæ do czêœci drugiej
+ $ git merge master     # po³¹cz master z poprawkami
+
+Ostatecznie czêœæ pierwsza zostaje zatwierdzona: 
+
+ $ git checkout master  # wróæ do czêœci pierwszej
+ $ submit files         # wyœlij j¹ w œwiat!
+ $ git merge part2      # po³¹cz z czêœci¹ drug¹
+ $ git branch -d part2  # usuñ ga³¹Ÿ z czêœci¹ drug¹
+
+Jesteœ teraz znowu w ga³êzi `master` z czêœci¹ drug¹ w katalogu roboczym. 
+
+£atwo rozszerzyæ tê sztuczkê na dowoln¹ liczbê czêœci projektu. £atwo jest równie¿  tworzyæ ga³êzie w przesz³oœci: powiedzmy, ¿e poniewczasie zda³eœ sobie sprawê, ¿e powinieneœ by³ stworzyæ ga³¹Ÿ 7 commit’ów wstecz. Wykonaj wtedy: 
+
+ $ git branch -m master part2  # zmieñ nazwê ga³êzi "master" na "part2".
+ $ git branch master HEAD~7    # stwórz now¹ ga³¹Ÿ "master" 7 commit’ów wstecz
+
+Ga³¹Ÿ `master` zawiera teraz jedynie czêœæ pierwsz¹, a ga³¹Ÿ `part2` ca³¹ resztê. Jesteœmy w drugiej z tych ga³êzi; stworzyliœmy `master` bez prze³¹czanie siê do niej, poniewa¿ chcemy dalej pracowaæ nad `part2`. To jest raczej niezwyk³e, poniewa¿ do tej pory zmienialiœmy ga³êzie zaraz po ich utworzeniu, jak tutaj: 
+
+ $ git checkout HEAD~7 -b master  # Stwórz ga³¹Ÿ i prze³¹cz siê na ni¹.
+
+=== Reorganizing a Medley ===
+
+Byæ mo¿e lubisz pracowaæ nad wszystkimi aspektami projektu w tej samej ga³êzi. Chcia³byœ trzymaæ na bie¿¹co wykonywan¹ pracê jedynie dla siebie oraz ¿eby inni widzieli twoje commit’y dopiero jak je ³adnie uporz¹dkujesz. Utwórz kilka ga³êzi: 
+
+  $ git branch sanitized    # Stwórz ga³¹Ÿ dla wyczyszczonych commit’ów.
+  $ git checkout -b medley  # stwórz i prze³¹cz siê do ga³êzi roboczej
+
+Nastêpnie pracuj na wszystkim: poprawkami b³êdów, nowymi funkcjami, dodawaj tymczasowy kod i tak dalej, ca³y czas zatwierdzaj¹c zmiany. Nastêpnie: 
+
+  $ git checkout sanitized
+  $ git cherry-pick medley^^
+
+Applied dziadka commit’a HEAD ga³êzi ``medley''  do ga³êzi ``sanitized''. Za pomoc¹ odpowiednich cherry-picks mo¿esz skonstruowaæ ga³¹Ÿ zawieraj¹c¹ jedynie sta³y kod oraz ma powi¹zane ze sob¹ commit’y zgrupowane razem. 
+
+=== Zarz¹dzanie Ga³êziami ===
+
+Lista wszystkich ga³êzi: 
+
+ $ git branch
+
+Domyœlnie zaczynasz zawsze w ga³êzi nazwanej ``master''. S¹ tacy, którzy opowiadaj¹ siê za pozostawieniem ga³êzi ``master'' w spokoju i tworzeniem nowych ga³êzi na ptorzeby swoich zmian. 
+
+Opcje *-d* i *-m* pozwalaj¹ na usuwanie i przenoszenie ( zmianê nazwy ) ga³êzi. Zobacz: *git help branch*.
+
+Ga³¹Ÿ ``master'' jest przydatnycm zwyczajem. Inni mog¹ zak³adaæ, ¿e Twoje repozytorium ma ga³¹Ÿ o takiej nazwie i ¿e ona zawiera w sobie oficjaln¹ wersjê projektu. Jednak¿e mo¿esz zmieniæ jej nazwê lub j¹ usun¹æ, albo po prostu trzymaæ siê konwencji. 
+
+=== Tymczasowe Ga³êzie ===
+
+Po jakimœ czasie mo¿esz daæ sobie sprawê, ¿e tworzysz krótko ¿yj¹ce ga³êzie z ci¹gle tych samych powodów: ka¿da z nich s³u¿y jedynie do zapisania aktualnego stanu, ¿eby móc na chwilê skoczyæ do starszego stanu ¿eby naprawiæ b³¹d o wysokim priorytecie lub coœ innego. 
+
+To jest podobne do zmiany kana³u telewizyjnego na chwilê, aby zobaczyæ co jest pokazywane na innych. Tylko, ¿e przeciwieñstwie do naciœniêcia kliku guzikó, musisz stworzyæ, wykonaæ checkout, po³¹czyæ i usun¹æ tymczasowe ga³êzie. Na szczêœcie Git oferuje skrót równie wygodny co pilot do telewizora: 
+
+ $ git stash
+
+To polecenie zapisuje aktualny stan w tymczasowej lokalizacji ('stash', czyli schowek ) i przywraca poprzedni stan. Twój katalog roboczy wygl¹da teraz dok³adnie tak, jak zanim zacz¹³eœ go zmieniaæ, a Ty mo¿esz naprawiæ b³êdy, zaci¹gn¹æ zmiany itd. Kiedy chcesz wróciæ do zachowanego stanu napisz: 
+
+ $ git stash apply  # Mo¿esz musieæ rozwi¹zaæ powsta³e konflikty
+
+Mo¿esz mieæ wiele schowków i manipulowaæ nimi na przeró¿ne sposoby. Zobacz *git help stash*. Jak pewnie siê domyœlasz, Git zarz¹dza ga³êziami za kulisami, aby wykonaæ tê magiczn¹ sztuczkê. 
+
+=== Pracuj Jak Chcesz ===
+
+Mo¿esz siê zastanawiaæ, czy ga³êzie s¹ warte zachodu. W koñcu klonowanie jest tak samo szybkie i mo¿esz przechodziæ pomiêdzy nimi za pomoc¹ *cd* zamiast ezoterycznych komend Git. 
+
+Rozwa¿my przegl¹darki internetowe. Dlaczego wspieraj¹ zarówno zak³adki jak i wiele okien? Poniewa¿ daje to mo¿liwoœæ dostosowania do wielu styli. Niektórzy lubi¹ 
+Consider web browsers. Why support multiple tabs as well as multiple windows?mieæ otwarte jedynie jedno okno przegl¹darki i u¿ywaæ zak³adek dla wielu stron internetowych. Inni upieraj¹ siê przy drugim extremum: wiele okien, bez zak³adek. Inni preferuj¹ coœ pomiêdzy. 
+
+Tworzenie ga³êzi jest jak zak³adki w Twoim katalog roboczym, a klonowanie jest jak otwieranie nowego okna. Te operacje s¹ szybkie i wykonywane lokalnie, wiêc czemu nie poeksperymentowaæ z kombinacj¹, która najlepiej Ci pasuje? Git pozwala Ci pracowaæ dok³adnie tak jak chesz.
+
