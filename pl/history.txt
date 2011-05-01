@@ -1,40 +1,34 @@
 ﻿== Lekcje Historii ==
 
 Konsekwencją rozproszonej natury Git jest to, że historię łatwo jest zmieniać. 
-Jeśli jednak mieszasz w przeszłości to uważaj: zmieniaj jedynie tę część historii, którą 
-posiadasz jedynie Ty. Tak jak narody toczą wieczne dysputy o to kto popełnił, którą potworność, 
-jeśli ktoś klon kogoś innego ma inną wersję historii niż Twoja, to napotkasz trudności,
-kiedy wasze drzewa będą się miały połączyć.
+Jeśli jednak mieszasz w przeszłości to uważaj: zmieniaj jedynie tę część historii, którą posiadasz jedynie Ty. Tak jak narody toczą wieczne dysputy o to, kto popełnił, którą potworność, jeśli ktoś klon kogoś innego ma inną wersję historii niż Twoja, to napotkasz trudności, kiedy wasze drzewa będą się miały połączyć.
 
 Niektórzy programiści uważają, że historia powinna pozostawać nie zmienna, ze wszystkimi jej potknięciami.
 Inni uważają, że drzewa powinny być odpowiednio przygotowane zanim zostaną zaprezentowane publiczności.
-Git dostosowuje się do obu punktów widzenia. Podobnie jak klonowanie, tworzenie gałęzi czy łączenie, 
-przepisywanie historii na nowo jest po prostu kolejną mocą jaką nam daje Git. To od Ciebie zależy czy będziesz 
-jej używał mądrze.
+Git dostosowuje się do obu punktów widzenia. Podobnie jak klonowanie, tworzenie gałęzi czy łączenie, przepisywanie historii na nowo jest po prostu kolejną mocą, jaką nam daje Git. To od Ciebie zależy czy będziesz jej używał mądrze.
 
-=== I Stand Corrected ===
+=== Mogłem Się Pomylić ===
 
 Czy właśnie zatwierdziłeś wersję, ale jednak wolałbyś napisać do niej inną wiadomość? 
 W takim razie wykonaj:
 
  $ git commit --amend
 
-aby zmienić ostatnią wiadomość. Zdałeś sobie sprawę, że zapomniałeś dodać plik? Wykonaj *git add* 
-żeby go dodać, a następnie wydaj powyższe polecenie.
+aby zmienić ostatnią wiadomość. Zdałeś sobie sprawę, że zapomniałeś dodać plik? Wykonaj *git add* żeby go dodać, a następnie wydaj powyższe polecenie.
 
 Chciałbyś dodać jeszcze kilka zmian do ostatniego commit'a? Wykonaj zmiany, a następnie:
 
  $ git commit --amend -a
 
-=== ... And Then Some ===
+=== ... A Potem Jeszcze Trochę ===
 
 Przypuśćmy, że poprzedni problem jest dziesięć razy gorszy. Po długiej sesji wykonałeś sporo commit'ów. 
-Nie jesteś jednak zadowolony ze sposobu w jaki są zorganizowane, a niektóre z ich wiadomości mogłyby być inaczej sformułowane.
+Nie jesteś jednak zadowolony ze sposobu, w jaki są zorganizowane, a niektóre z ich wiadomości mogłyby być inaczej sformułowane.
 W takim przypadku napisz:
 
  $ git rebase -i HEAD~10
 
-i ostatnie 10 commit'ów pojawi się w Twoim ulubionych edytorze ( $EDITOR ). Na przykład:
+i ostatnie 10 commit'ów pojawi się w Twoim ulubionych edytorze ($EDITOR). Na przykład:
 
     pick 5c6eb73 dodanie linku do repo.or.cz
     pick a311a64 Reorganizacja analogii w "Pracuj jak chcesz"
@@ -45,10 +39,10 @@ Potem:
 - Usuń commit'y przesz usunięcie linijek.
 - Zmień kolejność poprzez poprzestawiania linijek.
 - Zamień `pick` na:
-   * `edit` aby zaznaczyć, że wpis ma być dopisany.
-   * `reword` aby zmienić wiadomość.
-   * `squash` aby scalić commit z poprzednim.
-   * `fixup` aby scalić commit z poprzednim i usunąć związaną z nim wiadomość.
+   * `edit`, aby zaznaczyć, że wpis ma być dopisany.
+   * `reword`, aby zmienić wiadomość.
+   * `squash`, aby scalić commit z poprzednim.
+   * `fixup`, aby scalić commit z poprzednim i usunąć związaną z nim wiadomość.
 
 Zapisz i wyjdź. Jeśli zaznaczyłeś commit jak do edycji, to wykonaj:
 
@@ -60,11 +54,9 @@ Jeśli nie, to:
 
 Wykonuj commit szybko i często: zawsze możesz potem posprzątać za pomocą rebase.
 
-=== Local Changes Last ===
+=== Lokalne Zmiany Na Końcu ===
 
-Pracujesz nad lokalnym projektem. Wykonujesz jakieś lokalne commit'y, a potem synchronizujesz pracę
-z oficjalnym drzewem za pomocą merge. Ten cykl pracy powtarza się kilka razy zanim 
-jesteś gotowy do wykonania push do centralnego drzewa.
+Pracujesz nad lokalnym projektem. Wykonujesz jakieś lokalne commit'y, a potem synchronizujesz pracę z oficjalnym drzewem za pomocą merge. Ten cykl pracy powtarza się kilka razy zanim jesteś gotowy do wykonania push do centralnego drzewa.
 
 Jednak teraz historia w Twoim lokalnym repozytorium jest bałaganem powstałym z przemieszania Twoich i oficjalnych zmian. 
 Wolałbyś żeby wszystkie Twoje zmiany były w jednej ciągłej sekcji oraz były umieszczone po oficjalnych zmianach.
@@ -76,33 +68,26 @@ Możesz nawet zmieniać gałęzie drzewa.
 
 === Przepisywanie Historii ===
 
-Okazjonalnie możesz potrzebować od systemu kontroli wersji odpowiednika narzędzia do wymazywania 
-ludzi z oficjalnych zdjęć, usuwania ich z historii w stylu Stalina. Na przykład, załóżmy, że chcemy wydać 
-projekt, ale zawiera on plik, który z jakichś powodów powinien pozostać prywatny.
+Okazjonalnie możesz potrzebować od systemu kontroli wersji odpowiednika narzędzia do wymazywania ludzi z oficjalnych zdjęć, usuwania ich z historii w stylu Stalina. Na przykład, załóżmy, że chcemy wydać projekt, ale zawiera on plik, który z jakichś powodów powinien pozostać prywatny.
 Być może zostawiłem numer mojej karty kredytowej w pliku tekstowym i przez przypadek dodałem go do projektu.
 Usuwanie takiego pliku jest niewystarczające, ponieważ można do niego dotrzeć w starszych commit'ach. 
 Musimy usunąć go z nich wszystkich:
 
  $ git filter-branch --tree-filter 'rm bardzo/tajny/plik' HEAD
 
-Wpisz *git help filter-branch*, aby zobaczyć opis i przykłady szybszej metody. Ogólnie *filter branch*
-pozwala na zmiany w większych porcjach historii za pomocą jednego polecenia.
+Wpisz *git help filter-branch*, aby zobaczyć opis i przykłady szybszej metody. Ogólnie *filter-branch* pozwala na zmiany w większych porcjach historii za pomocą jednego polecenia.
 
 Katalog +.git/refs/original+ opisuje stan sprzed zmian wywołanych tą operacją.
-Możesz tutaj sprawdzić czy filter-branch wykonał to co chciałeś, a następnie usuń ten katalog jeśli chcesz
-wykonać kolejne polecenia filter-branch.
+Możesz tutaj sprawdzić czy filter-branch wykonał to, co chciałeś, a następnie usuń ten katalog, jeśli chcesz wykonać kolejne polecenia filter-branch.
 
 Ostatecznie możesz zamienić klony Twoich projektów na swoją poprawioną wersję, jeśli chcesz później z nimi pracować.
 
 === Tworzenie Historii ===
 
 [[makinghistory]]
-Chcesz zmigrować projekt do Git? Jeśli jest obecnie zarządzany przez jeden z bardziej popularnych
-systemów, to są szanse, że ktoś już napisał skrypt eksportujący całą historię do Git.
+Chcesz zmigrować projekt do Git? Jeśli jest obecnie zarządzany przez jeden z bardziej popularnych systemów, to są szanse, że ktoś już napisał skrypt eksportujący całą historię do Git.
 
-W innym przypadku poszukaj informacji o *git fast-import*, który czyta tekstowe dane wejściowe 
-w konkretnym formacie i tworzy z nich od podstaw historię Git. Normalnie skrypt używający tej komendy
-naprędce sklecony do kupy i uruchamiany jedynie raz w celu migracji całego projektu za jednym razem.
+W innym przypadku poszukaj informacji o *git fast-import*, który czyta tekstowe dane wejściowe w konkretnym formacie i tworzy z nich od podstaw historię Git. Normalnie skrypt używający tej komendy naprędce sklecony do kupy i uruchamiany jedynie raz w celu migracji całego projektu za jednym razem.
 
 Jako przykład, wklej następujący kod to pliku tymczasowego, na przykład `/tmp/historia`:
 ----------------------------------
@@ -150,13 +135,12 @@ Możesz wykonać checkout ostatniej wersji projektu za pomocą:
 
  $ git checkout master .
 
-Polecenie *git fast-export* konwertuje dowolne repozsytorium to formatu *git fast-export*, którego dane wynikowe
-możesz analizować w celu napisania skryptu eksportującego albo do zamianay repozytorium na format czytelny dla człowieka.
-W rzeczy samej te polecenia mogą przesłać repozytoium plików tekstowych za pomocą kanału tekstowego.
+Polecenie *git fast-export* konwertuje dowolne repozytorium to formatu *git fast-export*, którego dane wynikowe możesz analizować w celu napisania skryptu eksportującego albo do zamiany repozytorium na format czytelny dla człowieka.
+W rzeczy samej te polecenia mogą przesłać repozytorium plików tekstowych za pomocą kanału tekstowego.
 
 === Gdzie Wszystko Poszło Źle? ===
 
-Właśnie odkryłeś nie działającą funkcję w swoim programie, co do której jesteś pewien, że działała kilka miesięcy wcześniej.
+Właśnie odkryłeś niedziałającą funkcję w swoim programie, co, do której jesteś pewien, że działała kilka miesięcy wcześniej.
 Argh! Skąd się wziął ten błąd? Szkoda, że nie testowałeś tej funkcji w czasie pisania.
 
 Teraz jest już na to za późno. Jednakże, jeśli wykonywałeś często commit, Git może wskazać problem:
@@ -169,9 +153,7 @@ Git sprawdzi stan w połowie drogi. Przetestuj funkcję i jeśli ciągle nie dzi
 
  $ git bisect bad
 
-W przeciwnym wypadku zamień "bad" na "good". Git znowu zabierze Cię do stanu w połowie drogi pomiędzy znanymi mu
-dobyrmi i złymi wersjami, zmniejszając ilośc możliwości. Po kilku takich powtórzeniach, to szukanie binarne zaprowadzi 
-Cię do cimmit'a, który spraiwa problemy. Po zakończeniu śledztwa wróć do stanu początkowego za pomocą:
+W przeciwnym wypadku zamień "bad" na "good". Git znowu zabierze Cię do stanu w połowie drogi pomiędzy znanymi mu dobrymi i złymi wersjami, zmniejszając ilość możliwości. Po kilku takich powtórzeniach, to szukanie binarne zaprowadzi Cię do commit'a, który sprawia problemy. Po zakończeniu śledztwa wróć do stanu początkowego za pomocą:
 
  $ git bisect reset
 
@@ -179,12 +161,9 @@ Cię do cimmit'a, który spraiwa problemy. Po zakończeniu śledztwa wróć do s
 
  $ git bisect run moj_skrypt
 
-Git użyje wartości zwróconej przez podaną komendę, aby zdecydować czy zmiana jest dobra cyz zła: 
-komenda powinna zakończyć się kodem 0 gdy jest dobra, 125 jeśli zmiana powinna być pominięta, 
-i czymkolwiek pomiędzy 1 i 127 jeśli jest zła. Wartość ujemna przeywa działanie bisect.
+Git użyje wartości zwróconej przez podaną komendę, aby zdecydować czy zmiana jest dobra czy zła: komenda powinna zakończyć się kodem 0, gdy jest dobra, 125 jeśli zmiana powinna być pominięta i czymkolwiek pomiędzy 1 i 127 jeśli jest zła. Wartość ujemna przerywa działanie bisect.
 
-Możesz zrobić o wiele więcej: strona pomocy wyjaśnia jak wizualizować bisect'y, sprawdzać lub 
-odpowiadać na log bisect oraz eliminować znane, niewinne zmiany w celu szybszego wyszukiwania.
+Możesz zrobić o wiele więcej: strona pomocy wyjaśnia jak wizualizować bisect'y, sprawdzać lub odpowiadać na log bisect oraz eliminować znane, niewinne zmiany w celu szybszego wyszukiwania.
 
 === Kto Sprawił, Że Wszystko Źle Poszło? ===
 
@@ -193,44 +172,20 @@ Jak wiele innych systemów kontroli wersji Git ma komendę blame ( obwiń ):
  $ git blame bug.c
 
 które to polecenie dodaje komentarz do każdej linijki w podanym pliku, pokazując, kto ostatni ją zmieniał i kiedy.
-Inaczje niż w innych systemach kontroli wersji, ta operacja działa w trybie offline, czytając tylko z dysku lokalnego.
+Inaczej niż w innych systemach kontroli wersji, ta operacja działa w trybie offline, czytając tylko z dysku lokalnego.
 
 === Doświadczenie Osobiste ===
 
-W scentralizowanym systemie kontroli wersji, zmiana historii jest trudną operacją, dostępą jedynie
-dla administratorów. Klonowanie, tworzenie gałęzi i łączenie nie są możliwe bez komunikacji
-sieciowej. To samo dotyczy podstawowych operacji, takich jak przeglądanie historii albo wykonywanie commit swoich zmian.
-W części systemów użytkownicy potrzebują dostępu sieciowego po to tylko, żeby zobaczyć własne zmiany albo 
-żeby otworzyć plik w celu eycji.
+W scentralizowanym systemie kontroli wersji, zmiana historii jest trudną operacją, dostępną jedynie dla administratorów. Klonowanie, tworzenie gałęzi i łączenie nie są możliwe bez komunikacji sieciowej. To samo dotyczy podstawowych operacji, takich jak przeglądanie historii albo wykonywanie commit swoich zmian. W części systemów użytkownicy potrzebują dostępu sieciowego po to tylko, żeby zobaczyć własne zmiany albo żeby otworzyć plik w celu edycji.
 
-Centralized systems preclude working offline, and need more expensive network
-infrastructure, especially as the number of developers grows. Most
-importantly, all operations are slower to some degree, usually to the point
-where users shun advanced commands unless absolutely necessary. In extreme
-cases this is true of even the most basic commands. When users must run slow
-commands, productivity suffers because of an interrupted work flow.
+Zcentralizowane systemy kontroli wersji uniemożliwiają pracę w trybie offline i wymagają droższej infrastruktury sieciowej, zwłaszcza, jeśli rośnie liczba programistów.
+Najważniejsze jednak, że wszystkie operacje są w pewnym stopniu spowolnione aż do punktu, w którym użytkownicy przestają korzystać z zaawansowanych komend, o ile nie są naprawdę potrzebne. W skrajnych przypadkach dzieje się tak również w przypadku komend podstawowych. Kiedy użytkownicy muszą korzystać z wolnych poleceń, cierpi na tym produktywność przez zakłócenie trybu pracy.
 
-I experienced these phenomena first-hand. Git was the first version control
-system I used. I quickly grew accustomed to it, taking many features for
-granted. I simply assumed other systems were similar: choosing a version
-control system ought to be no different from choosing a text editor or web
-browser.
+Doświadczyłem tego fenomenu na własnej skórze. Git był pierwszym systemem kontroli wersji, jakiego używałem. 
+Szybko się przyzwyczaiłem do niego, jak również do wielu jego komend. Po prostu założyłem, że inne systemy są podobne: wybieranie systemu kontroli wersji nie powinno być różne od wybierania edytora tekstu czy przeglądarki internetowej.
 
-I was shocked when later forced to use a centralized system. A flaky internet
-connection matters little with Git, but makes development unbearable when it
-needs to be as reliable as local disk. Additionally, I found myself conditioned
-to avoid certain commands because of the latencies involved, which ultimately
-prevented me from following my desired work flow.
+Zszokowałem się, kiedy, później zostałem zmuszony do używania zcentralizowanego systemu. Kiepskie łącze internetowe ma niewielkie znaczenie w przypadku Git, ale sprawia, że praca jest nie do zniesienie, kiedy trzeba polegać na nim jak na dysku lokalnym. Dodatkowo zostałem zmuszony do unikania niektórych komend ze względu na opóźnienia, co w efekcie nie pozwoliło mi na pracę we własnym tempie.
 
-When I had to run a slow command, the interruption to my train of thought
-dealt a disproportionate amount of damage. While waiting for server
-communication to complete, I'd do something else to pass the time, such as
-check email or write documentation. By the time I returned to the original
-task, the command had finished long ago, and I would waste more time trying to
-remember what I was doing. Humans are bad at context switching.
+Kiedy musiałem wydawałem jakąś komendę to przerwa spowodowana jej realizacją dokonywała nieproporcjonalnie wielkich strat w moim ciągu myślowym. Czekając aż komunikacja z serwerem się zakończy robiłem cos innego, żeby czas szybciej zleciał, jak na przykład sprawdzanie poczty czy pisanie dokumentacji. Po powrocie do pierwotnego zadania okazywało się, że komenda już dawno się zakończyła, a ja jeszcze marnowałem więcej czasu próbując sobie przypomnieć, co wtedy robiłem. Ludzie są kiepscy w przełączaniach kontekstów.
 
-There was also an interesting tragedy-of-the-commons effect: anticipating
-network congestion, individuals would consume more bandwidth than necessary on
-various operations in an attempt to reduce future delays. The combined efforts
-intensified congestion, encouraging individuals to consume even more bandwidth
-next time to avoid even longer delays.
+Pojawiał się też interesujący efekt tragedii wspólnego pastwiska: przewidując zator w sieci, pojedynczy ludzie zużywali więcej przepustowości łącza niż to potrzebne dla różnych operacji, aby spróbować zredukować przyszłe zastoje. Ich łączne starania zintensyfikowały zator, zachęcając tym samym ludzi do zużywania jeszcze większej przepustowości następnym razem powodując przy tym większe opóźnienia.
