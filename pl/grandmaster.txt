@@ -1,0 +1,232 @@
+== Grandmastery Git ==
+
+Teraz już powinieneś być w stanie poruszać się po stronach pomocy * * git i zrozumieć
+prawie wszystko. Jednak identyfikowanie dokładnie tych samych poleceń potrzebne do rozwiązywania
+danego problemu może być trudna. Być może mogę zaoszczędzić trochę czasu: poniżej kilka
+receptur mam potrzebne w przeszłości.
+
+=== Źródło === prasowe
+
+Dla moich projektów, Git utworów dokładnie pliki Chciałbym archiwum i zwolnij
+dla użytkowników. Aby utworzyć archiwum z kodem źródłowym, uruchomić:
+
+ $ Archiwum git - format = tar - prefix = proj-1.2.3 / HEAD
+
+=== Commit Co Zmieniono ===
+
+Mówienie Git kiedy już dodawać, usuwać i przemianowany plików jest uciążliwe dla
+niektórych projektów. Zamiast tego, możesz wpisać:
+
+ $ Git add.
+ $ Git add-u
+
+Git będzie spojrzeć na pliki w bieżącym katalogu i wypracowanie szczegółów
+się. Zamiast drugiego polecenia dodać, należy uruchomić `git commit-a`, jeśli również
+zamierza popełnić w tym czasie. By uzyskać git * ignorować *, w jaki sposób określić pliki
+, które powinny być ignorowane.
+
+Możesz wykonać powyższe w jednym przejściu z:
+
+ $ Git ls-files-d-m-o-z | xargs -0 git update-index - dodaj - usuń
+
+*- Z * i *- 0 * opcje zapobiec chorych skutki uboczne z nazw plików zawierających
+dziwne znaki. Jak to polecenie dodaje ignorowane plików, możesz skorzystać z
+`-X` lub `-X` opcji.
+
+=== My Commit jest zbyt duży! ===
+
+Czy zaniedbane popełnić zbyt długo? Czy kodowanie wściekle i zapomniane
+o kontroli źródła aż do teraz? Wykonał szereg niepowiązanych zmian, ponieważ
+to jest twój styl?
+
+Nie martw się. Run:
+
+ $ Git add-p
+
+Dla każdej edycji dokonane, Git pokaże kawał kodu, który został zmieniony,
+i zapytać, czy należy część następnego popełnienia. Odpowiedź z "y" lub "n". Państwo
+mają inne opcje, takie jak odroczenie decyzji; "?" typu Aby dowiedzieć się więcej.
+
+Gdy jesteś zadowolony, typ
+
+ $ Git commit
+
+do popełnienia właśnie zmian wybranych ("wystawił" zmian). Upewnij się, że
+pominięcia *- opcja *, w przeciwnym razie Git zobowiąże wszystkie zmiany.
+
+Co jeśli już edycji wielu plików w wielu miejscach? Przegląd każdy zmian przez
+ktoś staje się frustrująca paraliżujący umysł. W tym przypadku należy użyć git * add-i *, którego
+Interfejs jest bardziej skomplikowany, ale bardziej elastyczne. Za pomocą kilku klawiszy,
+można etapie lub unstage kilku plików jednocześnie, lub przejrzeć i wybrać zmian
+w szczególności plików. Alternatywnie, uruchom * popełnienia git \ - interaktywne *, która
+automatycznie zobowiązuje się po zakończeniu.
+
+=== Indeks: Git w obszarze przemieszczania ===
+
+Do tej pory unikać Git słynny "Indeks", ale teraz musimy skonfrontować się
+wyjaśnienie powyżej. Indeks jest tymczasowy obszar inscenizacji. Git rzadko wahadłowe
+danych bezpośrednio pomiędzy projektu i jego historii. Raczej Git najpierw zapisuje
+dane do indeksu, a następnie kopiuje dane w indeksie do ostatecznego
+przeznaczenia.
+
+Na przykład, * commit-a * jest naprawdę z dwóch etapów. Pierwszym krokiem miejsc
+przedstawia aktualny stan każdego śledzone pliku do indeksu. Drugi
+krok na stałe zapisuje migawki teraz w indeksie. Popełnienie bez
+*- Opcja * wykonuje tylko drugi krok, i ma sens tylko po uruchomieniu
+poleceń, które w jakiś sposób zmienić indeks, takich jak git * dodać *.
+
+Zazwyczaj możemy ignorować indeksu i udawać, że czyta prosto z pisania i prosto do historii. Z tej okazji, chcemy lepiej kontrolować, więc manipulować indeksu. Mamy miejsce w skrócie niektórych, ale nie wszystkie, nasze zmiany do indeksu, a następnie na stałe zapisze to dokładnie sfałszowane migawki.
+
+=== Nie trać głowy ===
+
+Znacznik HEAD jak kursor, który zwykle wskazuje na ostatni commit, naprzód z każdym nowym popełnienia. Niektóre komendy git niech go przesunąć. Na przykład:
+
+ $ Git reset HEAD ~ 3
+
+przeniesie HEAD trzy zobowiązuje powrotem. Tak więc wszystkie polecenia git teraz działać tak, jakby nie zrobił te trzy ostatnie zobowiązuje, a twoje pliki pozostaną w teraźniejszości. Zobacz stronę pomoc dla niektórych aplikacji.
+
+Ale jak można wrócić do przyszłości? W ciągu ostatnich popełnia nie wiedzą nic o przyszłości.
+
+Jeśli masz SHA1 oryginalnego HEAD następnie:
+
+ $ Git zresetować 1b6d
+
+Ale załóżmy, że nigdy nie miała go? Nie martw się: dla poleceń takich jak te, Git zapisuje oryginalny HEAD jako znak zwany ORIG_HEAD, i można wrócić cali i zdrowi z:
+
+ $ Git zresetować ORIG_HEAD
+
+=== Polowania na głowy ===
+
+Być może ORIG_HEAD nie wystarczy. Być może już sobie sprawę dokonane monumentalny błąd i trzeba wrócić do dawnych popełnić w oddziale dawno zapomniane.
+
+Domyślnie, Git prowadzi popełnienia przez co najmniej dwa tygodnie, nawet w przypadku zamówienia
+Git, by zniszczyć gałęzi, które ją zawierają. Problem polega na znalezieniu odpowiedniego
+hash. Możemy spojrzeć na wszystkie wartości hash w `.git / obiektów` i metodą prób
+i błąd, który chcesz. Ale jest znacznie łatwiejszy sposób.
+
+Git rejestruje każde hash popełnić to oblicza się w `.git / logs`. Podkatalogu `bibl.` zawiera historię wszystkich działań na wszystkich oddziałach, podczas gdy plik `HEAD` pokazuje wszystkie wartości hash kiedykolwiek podjąć. Ta ostatnia może być używany do mieszania z popełnia na oddziały, które zostały przypadkowo Odciął.
+
+Komenda reflog zapewnia przyjazny interfejs do tych plików dziennika. Wypróbować
+
+  $ Git reflog
+
+Zamiast wycinać i wklejać skróty z reflog, spróbuj:
+
+ $ Git checkout "@ {10 minuty temu}"
+
+Lub kasy na 5. ostatniej wizyty popełnienia przez:
+
+ $ Git checkout "@ {5}"
+
+Zobacz `` Określanie Wersje''części git * pomóc rev-parse * więcej.
+
+Możesz skonfigurować dłuższy okres łaski dla skazanych zobowiązuje. Dla
+przykład:
+
+  $ Git config gc.pruneexpire "30 dni"
+
+oznacza usunięte popełnienia będą utracone po upływie 30 dni
+i git gc * * jest uruchamiany.
+
+Możesz również wyłączyć automatyczne wywołanie * git gc *:
+
+  $ Git config gc.auto 0
+
+w takim przypadku zobowiązuje będą usuwane po uruchomieniu * git gc * ręcznie.
+
+Budowa === W === Git
+
+W prawdziwie UNIX, Git jest budowa pozwala mu być łatwo wykorzystane jako niski poziom składnika innych programów, takich jak GUI i interfejs sieciowy, alternatywnych linii poleceń interfejsy, narzędzia zarządy patch, importowanie i narzędzi do konwersji i tak dalej. W rzeczywistości, niektóre polecenia Git same skrypty stojąc na ramionach olbrzymów. Przy odrobinie majsterkowania, można dostosować Git do własnych preferencji.
+
+Jednym z prostszych Sztuczka polega na użyciu wbudowane aliasy Git skrócić najczęściej
+używane polecenia:
+
+  $ Git config - global alias.co kasie
+  $ Git config - global - get-regexp alias # wyświetlania bieżącego aliasy
+  alias.co kasie
+  $ Git co foo # to samo co 'git checkout foo'
+
+Innym sposobem jest wydrukowanie bieżącego oddziału w tytule polecenia lub okna.
+Wywoływanie
+
+  $ Git symboliczne-ref HEAD
+
+pokazuje aktualną nazwę oddziału. W praktyce, prawdopodobnie chcesz usunąć
+"bibl. / głowy /" i ignoruj błędy:
+
+  $ Git symboliczne-ref HEAD 2> / dev / null | cut-b 12 -
+
++ + Podkatalogu contrib jest skarbnicą narzędzi zbudowany na Git.
+W czasie, niektóre z nich mogą być promowane do oficjalnych poleceń. Na Debianie i
+Ubuntu, ten katalog mieszka w + / usr / share / doc / git-core / contrib +.
+
+Jednym z popularnych rezydenta + workdir / git-new-workdir +. Via sprytny symbolicznego, skrypt utworzy nowy katalog, którego historia jest wspólna z oryginalnego repozytorium:
+
+  $ Git-new-workdir / istniejące / repo nowego / katalogu
+
+Nowy katalog i pliki w mogą być traktowane jako klon, z wyjątkiem ponieważ historia jest wspólna, dwa drzewa automatycznie pobyt w synchronizacji. Nie ma potrzeby łączenia, push, lub ciągnąć.
+
+=== Daring Stunts ===
+
+Te dni, Git utrudnia użytkownikowi przypadkowo zniszczyć dane.
+Ale jeśli wiesz, co robisz, można zastąpić zabezpieczenia wspólnych
+poleceń.
+
+* Zamówienie *: Niezakończone powodują zmiany kasy na porażkę. Aby zniszczyć zmiany, a kasy danego popełnić tak, należy użyć flagi życie:
+
+  $ Git checkout-f HEAD ^
+
+Z drugiej strony, jeśli podasz konkretne kierunki dla kasy, to nie ma żadnych kontroli bezpieczeństwa. Dostarczone ścieżki są cicho nadpisane. Uważaj, jeśli używasz realizacji transakcji w ten sposób.
+
+* Reset *: Reset też nie w obecności niezatwierdzone zmiany. Aby wymusić to poprzez uruchom:
+
+  $ Git reset - hard 1b6d
+
+* Oddział *: Usuwanie gałęzi nie gdy powoduje to zmiany zostaną utracone. Aby wymusić usunięcie, typu:
+
+  $ Git branch-D dead_branch # zamiast-d
+
+Podobnie, próbując zastąpić oddział poprzez przenoszenie nie powiedzie się, jeśli utraty danych wyniknie. Aby wymusić ruch gałęzi, typu:
+
+  $ Git branch-M cel źródłowy # zamiast-m
+
+W przeciwieństwie do kasy i reset, te dwa polecenia odroczyć zniszczenia danych.
+zmiany są nadal przechowywane w. git podkatalogu, i mogą być pobierane przez
+odzyskiwanie odpowiednich skrót od `.git / logs` (patrz "łowców głów" powyżej).
+Domyślnie, będą przechowywane przez co najmniej dwa tygodnie.
+
+* Czystość *: Niektóre polecenia git odmowie nadania, gdyż martwią się o
+przebijania nieśledzonej plików. Jeżeli jesteś pewien, że wszystkie nieśledzonej plików i
+katalogi są zbędni, a następnie usunąć je bezlitośnie z:
+
+  $ Git czyste-f-d
+
+Następnym razem, polecenie to brzydkie będzie działać!
+
+=== Zapobieganie Bad Zatwierdza ===
+
+Głupich błędów zanieczyszczają moich repozytoriów. Najbardziej przerażające są brakujące pliki z powodu
+do zapomnianego git * dodać *. Lesser grzechy są końcowe białe znaki i
+nierozwiązane konflikty podczas scalania: choć nieszkodliwe, pragnę, to nigdy nie pojawił się na
+publicznej.
+
+Gdybym tylko wykupił ubezpieczenie idiota za pomocą _hook_ poinformować mnie o tych problemów:
+
+ $ Cd .git / haki
+ $ Cp pre-pre-commit commit.sample # Starsze wersje Git: chmod + x pre-commit
+
+Teraz Git przerywa zatwierdzenie wtedy bezużyteczny białe lub nierozwiązane konflikty połączyć się
+wykryte.
+
+Z tego przewodnika, w końcu dodaje się następujące do początku
+* Pre-commit * hak do ochrony przed roztargnienia:
+
+ jeśli git ls-files-o | grep '\ txt $. ", a następnie
+   echo FAIL! Nieśledzone. Plików txt.
+   exit 1
+ fi
+
+Kilka operacji git haki, patrz * git haki pomóc *. Mamy aktywowany
+próbki * po aktualizacji * hak wcześniej przy omawianiu Git pośrednictwem protokołu HTTP. To działa
+gdy głowa przemieszcza. Próbka po update aktualizuje pliki skryptów Git potrzeb
+do komunikacji przez Git-agnostyk transportu, takich jak HTTP.
