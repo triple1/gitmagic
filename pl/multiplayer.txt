@@ -68,6 +68,7 @@ i tworzenia nowych pakietów za pomocą:
 
  $ git bundle create newbundle ^ lastbundle HEAD
 
+<<<<<<< HEAD
 === Patche: Globalny ===
 
 Poprawki są tekstowe reprezentacje zmiany, które mogą być zrozumiałe
@@ -217,3 +218,117 @@ Pobyt w świecie Git jest nieco wygodniejsze niż pliki poprawki, ponieważ
 ratuje mnie z ich konwersją do git. Ponadto, Git uchwyty szczegóły
 takich jak nagrywanie nazwisko autora i adres e-mail, jak również czasu i
 data i zwraca się do autora na temat ich własnych zmian.
+=======
+=== Łatki: Globalna Waluta ===
+
+Poprawki są tekstową reprezentacją zmian, które mogą być zrozumiałe
+przez komputery i ludzi. To sprawia, że są uniwersalne. Można wysłać łątkę e-mail’em do twórców bez względu na system kontroli wersji z którego korzystają. Jeśli odbiorcy potrafią czytać e-mail’e - zobaczą zmiany. Podobnie po Twojej stronie - wszystko czego potrzebujesz to konto e-mail: nie ma potrzeby, aby stawiać repozytorium Git online.
+
+Przypomnijmy, w pierwszym rozdziale:
+
+ $ git diff 1b6d > my.patch
+
+tworzy łatkę, która można wkleić do e-maila i poddać dyskusji. W repozytorium git napisz:
+
+ $ git apply < my.patch
+
+aby zastosować tę poprawkę.
+
+W bardziej formalnych układzie, kiedy nazwiska autorów i być może podpisów powinny być rejestrowane, generuj odpowiednie łatki od konkretnego momentu w przeszłośc, wpisując:
+
+ $ git format-patch 1b6d
+
+Pliki wynikowe można przekazać do  * git-send-email * lub wysłać ręcznie. Możesz także określić zakres commit’ów:
+
+ $ git format-patch 1b6d .. ^ ^ HEAD
+
+Po stronie odbiorczej, zapisz e-mail do pliku, a następnie wpisz:
+
+ $ git am < email.txt
+
+To polecenie zaaplikuje łatkę oraz stworzy commit, zawierając w nim  informacje, takie jak autor.
+
+Używając klienta poczty w przeglądarce, możesz musieć kliknąć jakiś przycisk, aby zobaczyć e-mail w postaci niesformatowanej, potrzebny do zapisania łatki do pliku.
+
+Istnieją niewielkie różnice w klientach email opartych na mbox, ale jeśli używasz takiego, to prawdopodobnie jesteś osobą, która sobie łatwo z nimi poradzi bez czytania tutoriali!
+
+=== Przykro Mi, Przeprowadziliśmy Się===
+
+Po sklonowaniu repozytorium * git push * lub *git pull * będą automatycznie działały z oryginalnym adresem URL. Jak git to robi? Sekret tkwi w opcjach konfiguracyjnych stworzonych wraz z Kolnem:
+Rzućmy okiem:
+
+ $ git config --list
+
+Opcja + remote.origin.url + kontroluje URL źródła pochodzenia; ''origin`` jest aliasem nadanym oryginalnemu repozytorium. Podobnie jak w przypadku konwencji gałęzi ''master``, możemy zmienić lub usunąć ten alias, ale zwykle nie ma powodu żeby to robić.
+
+Jeśli oryginalne repozytorium się przenmieści, możemy zaktualizować adres URL przez:
+
+ $ git config remote.origin.url git://new.url/proj.git
+
+Opcja + Branch.master.merge + określa domyślny zdalny udział dla
+* git pull *. Podczas pierwszego klonowania, zostaje ustawiony na bieżący udział repozytorium, więc nawet jeśli HEAD repozytorium przeniesie się do innej gałęzi, to późniejszy pull podąży za oryginalną gałęzią. 
+
+Ta opcja ma zastosowanie tylko w przypadku pierwszego repozytorium, z którego klonowaliśmy i jest zapisane w opcji + branch.master.remote +. Jeśli wykonamy pull z innych repozytoriów to musimy wyraźnie określić, o którą gałąź nam chodzi:
+
+ $ git pull git://example.com/other.git master
+
+Powyższe wyjaśnia dlaczego niektóre z naszych wcześniejszych poleceń nie posiadało argumentów.
+
+=== Zdalne Gałęzie ===
+
+Kiedy klonujesz repozytorium, to również klonujesz wszystkie jego oddziały. Mogłeś tego nie zauważyć, bo Git to ukrywa: musisz konkretnie o nie zapytać. To zapobiega wpływowi zdalnych gałęzi na Twoje oraz sprawia, że Git jest łatwiejszy dla początkujących. 
+
+Wyświetlenie listy zdalnych gałęzi:
+
+ $ rit branch -r
+
+Powinieneś zobaczyć coś takiego:
+
+ origin/HEAD
+ origin/master
+ origin/experimental
+
+Są to gałęzie i HEAD zdalnego repozytorium i mogą być używane w normalnych komendach Git. Na przykład załóżmy, że wykonaliśmu wiele commit i chcemy je porównać z ostatnio pobraną wersją. Możemy przeszukiwać logi w poszukiwaniu odpowiedniego skrótu SHA1, ale o wiele łatwiej wpisać:
+
+ $ git diff origin/HEAD
+
+Można też zobaczyć, co się dzieje w `` eksperymentalnej gałęzi'':
+
+ $ git log origin/experimental
+
+=== Wiele Zdalnych Źródeł ===
+
+Załóżmy, że dwóch innych deweloperów pracuje nad naszym projektem, a my chcemy śledzić poczynania obu. Możemy śledzić więcej niż jedno repozytorium jednocześnie za pomocą:
+
+ $ git remote add other git://example.com/some_repo.git
+ $ git pull other some_branch
+
+Złączyliśmy tym samym gałąź ze zdalnego repozytorium z naszym i mamy
+łatwy dostęp do wszystkich gałęzi we wszystkich repozytoriach:
+
+ $ git diff origin/experimental^ other/some_branch~5
+
+Ale co, jeśli chcemy tylko porównać zmiany bez wpływu na naszą pracę? Innymi słowy, chcemy sprawdzić zdalne gałęzie nieinwazyjnie. Wtedy zamiast wykonać pull, napisz:
+
+ $ git fetch # fetch z origin, domyślnie.
+ $ git fetch other # fetch od drugiego programisty.
+
+Te polecenia pobierają tylko historię. Mimo że katalog roboczy pozostaje nietknięty, my możemy odnieść się do każdej gałęzi w każdym repozytorium za pomocą polecenia Git, ponieważ teraz posiadamy ich lokalną kopię.
+
+
+Pamiętaj, że * pull * to jest * fetch *, a zaraz po nim merge.
+Zwykle wykonujemy * pull *, bo chcemy połączyć najnowsze commit’y po ich ściągnięciu; ta sytuacja jest chlubnym wyjątkiem.
+
+W * git help remote * znajdziesz informacje jak usunąć zdalne repozytoria, zignorować pewne gałęzie oraz więcej.
+
+=== Moje Preferencje ===
+
+
+W moich projektach lubię aby współpracownicy przygotowywali repozytoria, z których mogę wykonać ściągnąć dane za pomocą pull. Niektóre usługi hostingowe Git pozwalają przechowywać odgałęzienie innego projektu za pomocą jednego kliknięcia myszki.
+
+Po tym, jak ściągnę drzewo, za pomocą poleceń Git nawiguję i analizuję zmiany, które idealnie są dobrze zorganizowane i dobrze opisane. Mogę potem włączyć moje własne zmiany, i być może dokonać dalszych zmian. Po zatwierdzeniu, łączę je z głównym repozytorium.
+
+Choć rzadko otrzymują wsparcie, wierzę, że takie podejście sprawdza się dobrze. Zobacz [wpis na blogu Linusa Torvaldsa, http://torvalds-family.blogspot.com/2009/06/happiness-is-warm-scm].	
+
+Pozostawanie w świecie Git jest nieco wygodniejsze niż wykonywanie  poprawek, ponieważ pozwala mi uniknąć ich konwersji do git. Ponadto, Git zajmuje się szczegółami takimi jak zapisywanie nazwiska autora i adresu e-mail, jak również czasu i daty oraz prosi autorów o opisanie ich własnych zmian.
+>>>>>>> 043b0cc76a970965ffec50924bc8a3306679759b
