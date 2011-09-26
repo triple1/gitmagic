@@ -1,65 +1,46 @@
-== Grandmastery Git ==
+﻿== Grandmastery Git ==
 
-Teraz już powinieneś być w stanie poruszać się po stronach pomocy * * git i zrozumieć
-prawie wszystko. Jednak identyfikowanie dokładnie tych samych poleceń potrzebne do rozwiązywania
-danego problemu może być trudna. Być może mogę zaoszczędzić trochę czasu: poniżej kilka
-receptur mam potrzebne w przeszłości.
+Do tej pory powinieneś już być w stanie poruszać się po stronach pomocy * git *  i zrozumieć prawie wszystko. Jednak dokładne określenie polecenia potrzebnego do rozwiązania danego problemu może być trudne. Być może mogę zaoszczędzić Ci trochę czasu: poniżej jest kilka receptur, które były mi potrzebne w przeszłości.
 
-=== Źródło === prasowe
+=== Wydania źródłowe ===
 
-Dla moich projektów, Git utworów dokładnie pliki Chciałbym archiwum i zwolnij
-dla użytkowników. Aby utworzyć archiwum z kodem źródłowym, uruchomić:
+W moich projektach, Git śledzi jedynie pliki, które chcę archiwizować i udostępniać użytkownikom. Aby utworzyć archiwum z kodem źródłowym, wpisuję:
 
- $ Archiwum git - format = tar - prefix = proj-1.2.3 / HEAD
+ $ git archive --format=tar --prefix=proj-1.2.3/ HEAD
 
-=== Commit Co Zmieniono ===
+=== Zatwierdzam to co się zmieniło ===
 
-Mówienie Git kiedy już dodawać, usuwać i przemianowany plików jest uciążliwe dla
-niektórych projektów. Zamiast tego, możesz wpisać:
+Informowanie Git kiedy dodaliśmy, usunęliśmy lub zmieniliśmy nazwę plików jest uciążliwe w przypadku niektórych projektów. Zamiast tego, możesz wpisać:
 
- $ Git add.
- $ Git add-u
+ $ git add .
+ $ git add -u
 
-Git będzie spojrzeć na pliki w bieżącym katalogu i wypracowanie szczegółów
-się. Zamiast drugiego polecenia dodać, należy uruchomić `git commit-a`, jeśli również
-zamierza popełnić w tym czasie. By uzyskać git * ignorować *, w jaki sposób określić pliki
-, które powinny być ignorowane.
+Git będzie przejrzy pliki w bieżącym katalogu i sam dopracuje szczegóły. Zamiast drugiego polecenia add, wykonaj `git commit -a`, jeśli zamierzasz wykonać commit tym razem. Informacje o tym jak określić pliki, które ają być ingorowane znajdziesz w * gir help ignore *.
 
-Możesz wykonać powyższe w jednym przejściu z:
+Powyższe operacje możesz wykonać za jednym razem:
 
- $ Git ls-files-d-m-o-z | xargs -0 git update-index - dodaj - usuń
+ $ git ls-files –d –m –o -z | xargs -0 git update-index --add --remove
 
-*- Z * i *- 0 * opcje zapobiec chorych skutki uboczne z nazw plików zawierających
-dziwne znaki. Jak to polecenie dodaje ignorowane plików, możesz skorzystać z
-`-X` lub `-X` opcji.
+Opcje *- Z * i *- 0 * zapobiegają dziwnym skutkom ubocznym dodawania plików o nazwach zawierających dziwne znaki. Jak, że to polecenie dodaje ignorowane pliki, możesz chcieć skorzystać z opcji `-X` lub `-X`.
 
-=== My Commit jest zbyt duży! ===
+=== Mój Commit jest zbyt duży! ===
 
-Czy zaniedbane popełnić zbyt długo? Czy kodowanie wściekle i zapomniane
-o kontroli źródła aż do teraz? Wykonał szereg niepowiązanych zmian, ponieważ
-to jest twój styl?
+Czy zbyt długo zapominałeś wykonywać commit? Czy wściekle pisałęś kod i zapomniałeś o kontroli wersji aż do teraz? Wykonałeś szereg niepowiązanych zmian, ponieważ taki jest twój styl?
 
-Nie martw się. Run:
+Nie martw się. Wykonaj:
 
- $ Git add-p
+ $ git add -p
 
-Dla każdej edycji dokonane, Git pokaże kawał kodu, który został zmieniony,
-i zapytać, czy należy część następnego popełnienia. Odpowiedź z "y" lub "n". Państwo
-mają inne opcje, takie jak odroczenie decyzji; "?" typu Aby dowiedzieć się więcej.
+Dla każdej edycji, którą wykonałeś, git pokaże kawałek kodu, który został zmieniony i zapyta, czy powinien należeć on do następnego commit. Odpowiedź "y" lub "n". Masz też inne opcje, takie jak odroczenie decyzji; napisz "?" aby dowiedzieć się więcej.
 
-Gdy jesteś zadowolony, typ
+Gdy jesteś zadowolony, napisz:
 
- $ Git commit
+ $ git commit
 
-do popełnienia właśnie zmian wybranych ("wystawił" zmian). Upewnij się, że
-pominięcia *- opcja *, w przeciwnym razie Git zobowiąże wszystkie zmiany.
+Aby wykonać commit dokłądnie wybranych zmian ("staged" changes). Upewnij się, że pominąłeś opcję * -a *, w przeciwnym razie git wykona commit wszystkich zmian.
 
-Co jeśli już edycji wielu plików w wielu miejscach? Przegląd każdy zmian przez
-ktoś staje się frustrująca paraliżujący umysł. W tym przypadku należy użyć git * add-i *, którego
-Interfejs jest bardziej skomplikowany, ale bardziej elastyczne. Za pomocą kilku klawiszy,
-można etapie lub unstage kilku plików jednocześnie, lub przejrzeć i wybrać zmian
-w szczególności plików. Alternatywnie, uruchom * popełnienia git \ - interaktywne *, która
-automatycznie zobowiązuje się po zakończeniu.
+Co jeśli edytowałeś wiele plików w wielu miejscach? Przeglądanie każdej zmiany staje się frustrujące i paraliżujące umysł. W tym przypadku należy użyć git * add-i *, którego interfejs jest bardziej skomplikowany, ale bardziej elastyczny. za pomocą kilku klawiszy,
+można wykoać stage lub unstage na kilku plikach jednocześnie, lub przejrzeć i wybrać zmiany jedynie w konkretnych plikach. Alternatywnie, uruchom komendę * git commit --interactive *, która to automatycznie wykonuje commit po zakończeniu.
 
 === Indeks: Git w obszarze przemieszczania ===
 
