@@ -15,7 +15,7 @@ Informowanie Git kiedy dodaliśmy, usunęliśmy lub zmieniliśmy nazwę plików 
  $ git add .
  $ git add -u
 
-Git będzie przejrzy pliki w bieżącym katalogu i sam dopracuje szczegóły. Zamiast drugiego polecenia add, wykonaj `git commit -a`, jeśli zamierzasz wykonać commit tym razem. Informacje o tym jak określić pliki, które ają być ingorowane znajdziesz w * gir help ignore *.
+Git będzie przejrzy pliki w bieżącym katalogu i sam dopracuje szczegóły. Zamiast drugiego polecenia add, wykonaj `git commit -a`, jeśli zamierzasz wykonać commit tym razem. Informacje o tym jak określić pliki, które mają być ignorowane znajdziesz w * gir help ignore *.
 
 Powyższe operacje możesz wykonać za jednym razem:
 
@@ -25,7 +25,7 @@ Opcje *- Z * i *- 0 * zapobiegają dziwnym skutkom ubocznym dodawania plików o 
 
 === Mój Commit jest zbyt duży! ===
 
-Czy zbyt długo zapominałeś wykonywać commit? Czy wściekle pisałęś kod i zapomniałeś o kontroli wersji aż do teraz? Wykonałeś szereg niepowiązanych zmian, ponieważ taki jest twój styl?
+Czy zbyt długo zapominałeś wykonywać commit? Czy zawzięcie pisałeś kod i zapomniałeś o kontroli wersji aż do teraz? Wykonałeś szereg niepowiązanych zmian, ponieważ taki jest twój styl?
 
 Nie martw się. Wykonaj:
 
@@ -74,7 +74,7 @@ Może się zdarzyć, że ORIG_HEAD nie wystarczy. Być może zrobiłeś  monumen
 
 Domyślnie, Git trzyma commit’y przez co najmniej dwa tygodnie, nawet w przypadku wydania Git polecenia, by zniszczyć gałąź, która je zawiera. Problem polega na znalezieniu odpowiedniego hash’a. Możemy zobaczyć wszystkie wartości hash w `.git/objects` i metodą prób i błędów znaleźć ten, którego szukamy. Ale jest znacznie łatwiejszy sposób.
 
-Git rejestruje każdy hash commit’a w `.git/logs`. Podkatalog `refs` zawiera historię wszystkich działań na wszystkich gałęziach, podczas gdy plik `HEAD` pokazuje wszystkie wartości hash kiedykolwiek przyjął. Ten ostatni może być używany do znalezienia hash’y z commit’ów w hałęziach, które zostały przypadkowo usunięte.
+Git rejestruje każdy hash commit’a w `.git/logs`. Podkatalog `refs` zawiera historię wszystkich działań na wszystkich gałęziach, podczas gdy plik `HEAD` pokazuje wszystkie wartości hash kiedykolwiek przyjął. Ten ostatni może być używany do znalezienia hash’y z commit’ów w gałęziach, które zostały przypadkowo usunięte.
 
 Komenda reflog dostarcza przyjazny interfejs do przeglądania plików dziennika. Wypróbuj:
 
@@ -105,12 +105,12 @@ w takim przypadku commit’y będą usuwane po uruchomieniu * git gc * ręcznie.
 
 === Budowanie na Git === 
 
-W prawdziwie UNIX’owym stylu, Git jest tak zaprojektowany, aby mógł być łatwo wykorzystany jako składnik nisopoziomowy innych programów, takich jak interfejsy GUI czy sieciowe, alternatywne interfejsy linii poleceń, narzędzia zarządzania łatkami, narzędzia do importu czy konwersji i tak dalej. W rzeczywistości, niektóre polecenia Git same są skryptami stojącymi na ramionach olbrzyma. Przy odrobinie majsterkowania, można dostosować Git do własnych preferencji.
+W prawdziwie UNIX’owym stylu, Git jest tak zaprojektowany, aby mógł być łatwo wykorzystany jako składnik niskopoziomowy innych programów, takich jak interfejsy GUI czy sieciowe, alternatywne interfejsy linii poleceń, narzędzia zarządzania łatkami, narzędzia do importu czy konwersji i tak dalej. W rzeczywistości, niektóre polecenia Git same są skryptami stojącymi na ramionach olbrzyma. Przy odrobinie majsterkowania, można dostosować Git do własnych preferencji.
 
 Jedna z prostszych sztuczek polega na użyciu wbudowanych aliasów Git aby uprościć najczęściej używane polecenia:
 
   $ git config --global alias.co checkout
-  $ git config --global --get-regexp alias # wyświetlenie bieżącego aliasu alias.co chekout
+  $ git config --global --get-regexp alias # wyświetlenie bieżącego aliasu alias.co checkout
   $ git co foo # to samo co 'git checkout foo'
 
 Można też wydrukować nazwę bieżącej gałęzi w tytule polecenia lub okna.
@@ -129,7 +129,7 @@ Jednym z popularnych poleceń jest + workdir/git-new-workdir +. Przez  sprytne l
 
   $ git-new-workdir /istniejące/repo nowy/katalog
 
-Nowy katalog i pliki w mogą być traktowane jako klon, z wyjątkiem faktu, że ponieważ historia jest wspólna, dwa drzewa automatyczniepozostają zsynchronizowane. Nie ma potrzeby wykonywania merge, push, lub pull.
+Nowy katalog i pliki w mogą być traktowane jako klon, z wyjątkiem faktu, że ponieważ historia jest wspólna, dwa drzewa automatycznie pozostają zsynchronizowane. Nie ma potrzeby wykonywania merge, push, lub pull.
 
 === Odważne sztuki kaskaderskie ===
 
@@ -163,30 +163,23 @@ zniszczenie nieśledzonych plików. Jeżeli jesteś pewien, że wszystkie nieśl
 
 Następnym razem, to paskudne polecenie zadziała!
 
-=== Zapobieganie Bad Zatwierdza ===
+=== Zapobieganie złym commit’om ===
 
-Głupich błędów zanieczyszczają moich repozytoriów. Najbardziej przerażające są brakujące pliki z powodu
-do zapomnianego git * dodać *. Lesser grzechy są końcowe białe znaki i
-nierozwiązane konflikty podczas scalania: choć nieszkodliwe, pragnę, to nigdy nie pojawił się na
-publicznej.
+Głupie błędy zanieczyszczają moje repozytoria. Najbardziej przerażające są brakujące pliki z powodu zapomnienia wykonania * git add *. Mniejszymi grzechami są białe znaki na końcu i nierozwiązane konflikty podczas scalania: choć nieszkodliwe, chciałbym, żeby nigdy nie zostały upublicznione.
 
-Gdybym tylko wykupił ubezpieczenie idiota za pomocą _hook_ poinformować mnie o tych problemów:
+Gdybym tylko wykupił idiotyczne ubezpieczenie przez używanie _hook_ które informowałoby mnie o tych problemach:
 
- $ Cd .git / haki
- $ Cp pre-pre-commit commit.sample # Starsze wersje Git: chmod + x pre-commit
+ $ cd .git/hooks
+ $ cp pre-commit.sample pre-commit # Starsze wersje Git: chmod +x pre-commit
 
-Teraz Git przerywa zatwierdzenie wtedy bezużyteczny białe lub nierozwiązane konflikty połączyć się
-wykryte.
+Teraz Git przerwie commit jeśli wykryje bezużyteczny białe znaki lub nierozwiązane konflikty.
 
-Z tego przewodnika, w końcu dodaje się następujące do początku
-* Pre-commit * hak do ochrony przed roztargnienia:
+Dla tego przewodnika, w końcu dodałem następujący kod na początku hook’a
+* pre-commit * w celu ochrony przed roztargnieniem:
 
- jeśli git ls-files-o | grep '\ txt $. ", a następnie
-   echo FAIL! Nieśledzone. Plików txt.
+ if git ls-files -o | grep '\.txt$’; then
+   echo FAIL! Nieśledzone pliki .txt
    exit 1
  fi
 
-Kilka operacji git haki, patrz * git haki pomóc *. Mamy aktywowany
-próbki * po aktualizacji * hak wcześniej przy omawianiu Git pośrednictwem protokołu HTTP. To działa
-gdy głowa przemieszcza. Próbka po update aktualizuje pliki skryptów Git potrzeb
-do komunikacji przez Git-agnostyk transportu, takich jak HTTP.
+Kilka operacji git wspiera hooks, zobacz * git help hooks *. Aktywowaliśmy prosty hook * post update * wcześniej przy omawianiu Git za pośrednictwem protokołu HTTP. Uruchamia się zawsze, gdy HEAD się przemieszcza. Prosty skrypt post-update aktualizuje pliki, które Git potrzebuje do komunikacji przez transportu, taki jak HTTP.
