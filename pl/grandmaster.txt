@@ -68,113 +68,100 @@ Ale załóżmy, że nigdy go nie zanotowaliśmy? Nie martw się: dla poleceń ta
 
  $ git reset ORIG_HEAD
 
-=== Polowania na głowy ===
+=== Polowanie na głowy (HEAD) ===
 
-Być może ORIG_HEAD nie wystarczy. Być może już sobie sprawę dokonane monumentalny błąd i trzeba wrócić do dawnych popełnić w oddziale dawno zapomniane.
+Może się zdarzyć, że ORIG_HEAD nie wystarczy. Być może zrobiłeś  monumentalny błąd i musisz wrócić do starego commit’a w dawno zapomnianej gałęzi.
 
-Domyślnie, Git prowadzi popełnienia przez co najmniej dwa tygodnie, nawet w przypadku zamówienia
-Git, by zniszczyć gałęzi, które ją zawierają. Problem polega na znalezieniu odpowiedniego
-hash. Możemy spojrzeć na wszystkie wartości hash w `.git / obiektów` i metodą prób
-i błąd, który chcesz. Ale jest znacznie łatwiejszy sposób.
+Domyślnie, Git trzyma commit’y przez co najmniej dwa tygodnie, nawet w przypadku wydania Git polecenia, by zniszczyć gałąź, która je zawiera. Problem polega na znalezieniu odpowiedniego hash’a. Możemy zobaczyć wszystkie wartości hash w `.git/objects` i metodą prób i błędów znaleźć ten, którego szukamy. Ale jest znacznie łatwiejszy sposób.
 
-Git rejestruje każde hash popełnić to oblicza się w `.git / logs`. Podkatalogu `bibl.` zawiera historię wszystkich działań na wszystkich oddziałach, podczas gdy plik `HEAD` pokazuje wszystkie wartości hash kiedykolwiek podjąć. Ta ostatnia może być używany do mieszania z popełnia na oddziały, które zostały przypadkowo Odciął.
+Git rejestruje każdy hash commit’a w `.git/logs`. Podkatalog `refs` zawiera historię wszystkich działań na wszystkich gałęziach, podczas gdy plik `HEAD` pokazuje wszystkie wartości hash kiedykolwiek przyjął. Ten ostatni może być używany do znalezienia hash’y z commit’ów w hałęziach, które zostały przypadkowo usunięte.
 
-Komenda reflog zapewnia przyjazny interfejs do tych plików dziennika. Wypróbować
+Komenda reflog dostarcza przyjazny interfejs do przeglądania plików dziennika. Wypróbuj:
 
-  $ Git reflog
+  $ git reflog
 
 Zamiast wycinać i wklejać skróty z reflog, spróbuj:
 
- $ Git checkout "@ {10 minuty temu}"
+ $ git checkout "@{10 minutes ago}"
 
-Lub kasy na 5. ostatniej wizyty popełnienia przez:
+lub przywróć 5. ostatnio odwiedzany commit za pomocą:
 
- $ Git checkout "@ {5}"
+ $ git checkout "@{5}"
 
-Zobacz `` Określanie Wersje''części git * pomóc rev-parse * więcej.
+Więcej informacji w sekcji ``Specifying Revisions'' w pomocy git * git help rev-parse *.
 
-Możesz skonfigurować dłuższy okres łaski dla skazanych zobowiązuje. Dla
-przykład:
+Możesz skonfigurować dłuższy okres przetrzymywania skazanych (usuniętych) commit’ów. Na przykład:
 
-  $ Git config gc.pruneexpire "30 dni"
+  $ git config gc.pruneexpire "30 days"
 
-oznacza usunięte popełnienia będą utracone po upływie 30 dni
-i git gc * * jest uruchamiany.
+oznacza, że usunięte commit’y będą utracone po upływie 30 dni
+i * git gc * zostanie uruchomiony.
 
-Możesz również wyłączyć automatyczne wywołanie * git gc *:
+Możesz również wyłączyć automatyczne uruchamianie * git gc *:
 
-  $ Git config gc.auto 0
+  $ git config gc.auto 0
 
-w takim przypadku zobowiązuje będą usuwane po uruchomieniu * git gc * ręcznie.
+w takim przypadku commit’y będą usuwane po uruchomieniu * git gc * ręcznie.
 
-Budowa === W === Git
+=== Budowanie na Git === 
 
-W prawdziwie UNIX, Git jest budowa pozwala mu być łatwo wykorzystane jako niski poziom składnika innych programów, takich jak GUI i interfejs sieciowy, alternatywnych linii poleceń interfejsy, narzędzia zarządy patch, importowanie i narzędzi do konwersji i tak dalej. W rzeczywistości, niektóre polecenia Git same skrypty stojąc na ramionach olbrzymów. Przy odrobinie majsterkowania, można dostosować Git do własnych preferencji.
+W prawdziwie UNIX’owym stylu, Git jest tak zaprojektowany, aby mógł być łatwo wykorzystany jako składnik nisopoziomowy innych programów, takich jak interfejsy GUI czy sieciowe, alternatywne interfejsy linii poleceń, narzędzia zarządzania łatkami, narzędzia do importu czy konwersji i tak dalej. W rzeczywistości, niektóre polecenia Git same są skryptami stojącymi na ramionach olbrzyma. Przy odrobinie majsterkowania, można dostosować Git do własnych preferencji.
 
-Jednym z prostszych Sztuczka polega na użyciu wbudowane aliasy Git skrócić najczęściej
-używane polecenia:
+Jedna z prostszych sztuczek polega na użyciu wbudowanych aliasów Git aby uprościć najczęściej używane polecenia:
 
-  $ Git config - global alias.co kasie
-  $ Git config - global - get-regexp alias # wyświetlania bieżącego aliasy
-  alias.co kasie
-  $ Git co foo # to samo co 'git checkout foo'
+  $ git config --global alias.co checkout
+  $ git config --global --get-regexp alias # wyświetlenie bieżącego aliasu alias.co chekout
+  $ git co foo # to samo co 'git checkout foo'
 
-Innym sposobem jest wydrukowanie bieżącego oddziału w tytule polecenia lub okna.
-Wywoływanie
+Można też wydrukować nazwę bieżącej gałęzi w tytule polecenia lub okna.
+Wywołanie:
 
-  $ Git symboliczne-ref HEAD
+  $ git symbolic-ref HEAD
 
-pokazuje aktualną nazwę oddziału. W praktyce, prawdopodobnie chcesz usunąć
-"bibl. / głowy /" i ignoruj błędy:
+pokazuje aktualną nazwę gałęzi. W praktyce, prawdopodobnie będziesz chciał usunąć "refs/heads/" i ignorować błędy:
 
-  $ Git symboliczne-ref HEAD 2> / dev / null | cut-b 12 -
+  $ git symbolic-ref HEAD 2> /dev/null | cut -b 12-
 
-+ + Podkatalogu contrib jest skarbnicą narzędzi zbudowany na Git.
-W czasie, niektóre z nich mogą być promowane do oficjalnych poleceń. Na Debianie i
-Ubuntu, ten katalog mieszka w + / usr / share / doc / git-core / contrib +.
+Podkatalog + contrib + jest skarbnicą narzędzi zbudowanych na Git.
+Z czasem, niektóre z nich mogą zostać promowane do statusu oficjalnych poleceń. W Debianie i Ubuntu, ten katalog znajduje się w + /usr/share/doc/git-core/contrib +.
 
-Jednym z popularnych rezydenta + workdir / git-new-workdir +. Via sprytny symbolicznego, skrypt utworzy nowy katalog, którego historia jest wspólna z oryginalnego repozytorium:
+Jednym z popularnych poleceń jest + workdir/git-new-workdir +. Przez  sprytne linki symboliczne, skrypt tworzy nowy katalog, którego historia jest dzielona z oryginalnym repozytorium:
 
-  $ Git-new-workdir / istniejące / repo nowego / katalogu
+  $ git-new-workdir /istniejące/repo nowy/katalog
 
-Nowy katalog i pliki w mogą być traktowane jako klon, z wyjątkiem ponieważ historia jest wspólna, dwa drzewa automatycznie pobyt w synchronizacji. Nie ma potrzeby łączenia, push, lub ciągnąć.
+Nowy katalog i pliki w mogą być traktowane jako klon, z wyjątkiem faktu, że ponieważ historia jest wspólna, dwa drzewa automatyczniepozostają zsynchronizowane. Nie ma potrzeby wykonywania merge, push, lub pull.
 
-=== Daring Stunts ===
+=== Odważne sztuki kaskaderskie ===
 
-Te dni, Git utrudnia użytkownikowi przypadkowo zniszczyć dane.
-Ale jeśli wiesz, co robisz, można zastąpić zabezpieczenia wspólnych
-poleceń.
+Współcześnie, Git utrudnia użytkownikowi przypadkowe zniszczenie danych.
+Ale jeśli wiesz, co robisz, można obejść zabezpieczenia podstawowych poleceń.
 
-* Zamówienie *: Niezakończone powodują zmiany kasy na porażkę. Aby zniszczyć zmiany, a kasy danego popełnić tak, należy użyć flagi życie:
+* Checkout *: Zmiany po których nie wykonano commit powodują niepowodzenie checkout. Aby zniszczyć te zmiany i wykonać checkout, należy użyć flagi force:
 
-  $ Git checkout-f HEAD ^
+  $ git checkout -f HEAD^
 
-Z drugiej strony, jeśli podasz konkretne kierunki dla kasy, to nie ma żadnych kontroli bezpieczeństwa. Dostarczone ścieżki są cicho nadpisane. Uważaj, jeśli używasz realizacji transakcji w ten sposób.
+Z drugiej strony, jeśli podasz konkretne ścieżki dla checkout, to nie będzie żadnej kontroli bezpieczeństwa. Domyślne ścieżki zostaną cicho nadpisane. Miej się na baczności, jeśli używasz checkout w ten sposób.
 
-* Reset *: Reset też nie w obecności niezatwierdzone zmiany. Aby wymusić to poprzez uruchom:
+* Reset *: Reset również zawiedzie w obliczu niezatwierdzonych zmian. Aby wymusić wykonaj:
 
-  $ Git reset - hard 1b6d
+  $ git reset --hard 1b6d
 
-* Oddział *: Usuwanie gałęzi nie gdy powoduje to zmiany zostaną utracone. Aby wymusić usunięcie, typu:
+* Branch *: Usuwanie gałęzi się nie powiedzie, jeśli miałoby sprawić, że zmiany zostaną utracone. Aby wymusić usunięcie:
 
-  $ Git branch-D dead_branch # zamiast-d
+  $ git branch -D dead_branch # zamiast -d
 
-Podobnie, próbując zastąpić oddział poprzez przenoszenie nie powiedzie się, jeśli utraty danych wyniknie. Aby wymusić ruch gałęzi, typu:
+Podobnie, próba nadpisania gałęzi poprzez przenoszenie nie powiedzie się, jeśli miałaby z tego wyniknąć utrata danych. Aby wymusić przeniesienie gałęzi napisz:
 
-  $ Git branch-M cel źródłowy # zamiast-m
+  $ git branch -M źródło cel # zamiast -m
 
-W przeciwieństwie do kasy i reset, te dwa polecenia odroczyć zniszczenia danych.
-zmiany są nadal przechowywane w. git podkatalogu, i mogą być pobierane przez
-odzyskiwanie odpowiednich skrót od `.git / logs` (patrz "łowców głów" powyżej).
-Domyślnie, będą przechowywane przez co najmniej dwa tygodnie.
+W przeciwieństwie do chekcout i reset, te dwa polecenia odraczają zniszczenia danych. Zmiany są nadal przechowywane w podkatalogu .git i mogą być odtworzone przez odzyskanie odpowiednich hash’y  z `.git/logs` (patrz "Polowanie na głowy (HEAD)" powyżej). Domyślnie, będą przechowywane przez co najmniej dwa tygodnie.
 
-* Czystość *: Niektóre polecenia git odmowie nadania, gdyż martwią się o
-przebijania nieśledzonej plików. Jeżeli jesteś pewien, że wszystkie nieśledzonej plików i
-katalogi są zbędni, a następnie usunąć je bezlitośnie z:
+* Clean *: Niektóre polecenia git odmawiają wykonania, gdyż martwią się o
+zniszczenie nieśledzonych plików. Jeżeli jesteś pewien, że wszystkie nieśledzone pliki i katalogi są zbędne, a następnie usunąć je bezlitośnie za pomocą:
 
-  $ Git czyste-f-d
+  $ git clean –f -d
 
-Następnym razem, polecenie to brzydkie będzie działać!
+Następnym razem, to paskudne polecenie zadziała!
 
 === Zapobieganie Bad Zatwierdza ===
 
